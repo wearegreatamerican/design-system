@@ -1,3 +1,8 @@
+@import "tailwindcss";
+
+/* Convenience entry. Prefer "@greatamerican/design-system/css"
+   and import tailwindcss yourself. */
+
 /* GENERATED FROM tokens.json — DO NOT EDIT BY HAND.
    Run `npm run build`. Prose rules live in DESIGN-SYSTEM.md.
 

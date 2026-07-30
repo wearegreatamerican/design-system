@@ -20,19 +20,28 @@ version bump, which is the drift this repo exists to prevent.
 
 ## Use
 
-**Tailwind v4.** Replace your `@import "tailwindcss"` with:
+**Tailwind v4.** This file does **not** import the framework. You import
+`tailwindcss` first, then this, then anything that overrides against it:
 
 ```css
+@import "tailwindcss";
 @import "@greatamerican/design-system/css";
+@import "./starwind.css";
 ```
 
-That brings the full `@theme` block and the role aliases. Do not redeclare
-tokens locally.
+Order matters. The design system defines the tokens; a UI-kit stylesheet
+overrides against them. Reversed, the kit's defaults win silently.
+
+If you want a single entry that pulls the framework too, use
+`@greatamerican/design-system/css/bundled`. Do not use both.
+
+Do not redeclare tokens locally.
 
 **Document builds and anything JS.**
 
 ```js
-import { color, typeMap, page, font, pxToHalfPt } from "@greatamerican/design-system";
+import { color, typeMap, page, font, scale, radius, shadow, pxToHalfPt }
+  from "@greatamerican/design-system";
 
 const size = pxToHalfPt(11);        // body copy, docx half-points
 const navy = color.navy;            // "#1F3A5F"
@@ -63,6 +72,9 @@ The validator encodes the failure modes this system has actually had:
 - A brand entry defining its own hex instead of referencing a token
 - Two tokens sharing one value
 - Any declared contrast minimum no longer holding
+- Two tokens sharing a value inside any namespace, not just colour
+- A gradient ramp naming a token that does not exist
+- A transactional document declaring motifs or a non-`paper` ground
 
 That last one is the important one. Change a hex and the build tells you which
 piece of the interface just stopped being legible, with the ratio.

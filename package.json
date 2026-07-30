@@ -1,6 +1,6 @@
 {
   "name": "@greatamerican/design-system",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Great American brand design system. Tokens, spec, and generated outputs.",
   "type": "module",
   "license": "UNLICENSED",
@@ -8,14 +8,21 @@
   "exports": {
     ".": "./build/tokens.js",
     "./css": "./build/tokens.css",
+    "./css/bundled": "./build/tokens.bundled.css",
     "./tokens.json": "./tokens.json",
     "./spec": "./DESIGN-SYSTEM.md"
   },
-  "files": ["build", "tokens.json", "DESIGN-SYSTEM.md"],
+  "files": [
+    "build",
+    "tokens.json",
+    "DESIGN-SYSTEM.md"
+  ],
   "scripts": {
     "build": "node scripts/build.mjs",
     "check": "node scripts/build.mjs --check",
     "prepare": "node scripts/build.mjs"
   },
-  "engines": { "node": ">=22" }
+  "engines": {
+    "node": ">=22"
+  }
 }

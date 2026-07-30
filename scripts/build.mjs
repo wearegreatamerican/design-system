@@ -80,13 +80,27 @@ for (const [name, d] of Object.entries(T.documents ?? {})) {
     errors.push(`document "${name}" is transactional but sits on "${d.ground}". Transactional documents are designed on paper`);
 }
 
-// duplicate values
-const seen = new Map();
-for (const [n, t] of Object.entries(T.color)) {
-  const k = t.value.toUpperCase();
-  if (seen.has(k)) errors.push(`"${n}" and "${seen.get(k)}" share the value ${t.value}`);
-  seen.set(k, n);
-}
+// duplicate values, per namespace
+const dupes = (label, entries) => {
+  const seen = new Map();
+  for (const [n, v] of entries) {
+    const k = String(v).toUpperCase();
+    if (seen.has(k)) errors.push(`${label}: "${n}" and "${seen.get(k)}" share the value ${v}`);
+    seen.set(k, n);
+  }
+};
+const plain = (o) => Object.entries(o ?? {}).filter(([k]) => !k.startsWith("_"));
+dupes("color",  Object.entries(T.color).map(([n, t]) => [n, t.value]));
+dupes("radius", plain(T.radius).map(([n, r]) => [n, r.value]));
+dupes("shadow", plain(T.shadow));
+dupes("text",   plain(T.scale?.text));
+dupes("leading", plain(T.scale?.leading));
+dupes("tracking", plain(T.scale?.tracking));
+
+// gradient ramps must name real tokens
+for (const [n, g] of plain(T.motif?.gradient ?? {}))
+  for (const step of g.ramp ?? [])
+    if (!T.color[step]) errors.push(`motif.gradient.${n} references unknown token "${step}"`);
 
 if (errors.length) {
   console.error("\nFAILED\n" + errors.map((e) => "  ✗ " + e).join("\n") + "\n");
@@ -102,8 +116,11 @@ const groups = { structure: "Structure", neutral: "Neutral ramp, all warm", acce
 const brandOf = Object.fromEntries(Object.entries(T.brand).map(([, b]) => [b.token, true]));
 const pad = (s, n) => s.padEnd(n);
 
-let css = `@import "tailwindcss";\n\n`;
-css += `/* GENERATED FROM tokens.json — DO NOT EDIT BY HAND.\n   Run \`npm run build\`. Prose rules live in ${T.meta.spec}. */\n\n@theme static {\n`;
+let css = `/* GENERATED FROM tokens.json — DO NOT EDIT BY HAND.\n`
+  + `   Run \`npm run build\`. Prose rules live in ${T.meta.spec}.\n\n`
+  + `   CONTRACT: the consumer imports tailwindcss FIRST, then this file.\n`
+  + `   This file does not import the framework. Use "/css/bundled" if you\n`
+  + `   want one that does. */\n\n@theme static {\n`;
 for (const [g, label] of Object.entries(groups)) {
   css += `\n  /* ---------- ${label} ---------- */\n`;
   for (const [n, t] of Object.entries(T.color)) {
@@ -121,6 +138,47 @@ for (const [n, v] of Object.entries(T.motif.tile)) {
   const key = { eyebrow: "tile-eyebrow", cardCap: "tile-card-cap", divider: "tile-divider" }[n];
   css += `  ${pad(`--${key}:`, 22)}${v}px;\n`;
 }
+// scale, radius, shadow, motion — every prefix is a real Tailwind v4 namespace
+const NS = [
+  ["Type scale",  T.scale?.text,     "--text-"],
+  ["Leading",     T.scale?.leading,  "--leading-"],
+  ["Tracking",    T.scale?.tracking, "--tracking-"],
+  ["Radius",      T.radius,          "--radius-"],
+  ["Shadow",      T.shadow,          "--shadow-"],
+  ["Motion",      T.motion,          "--"],
+];
+for (const [label, obj, prefix] of NS) {
+  const rows = plain(obj);
+  if (!rows.length) continue;
+  css += `\n  /* ---------- ${label} ---------- */\n`;
+  for (const [k, v] of rows) {
+    const val = typeof v === "object" ? v.value : v;
+    const use = typeof v === "object" && v.use ? `  /* ${v.use} */` : "";
+    css += `  ${pad(`${prefix}${k}:`, 22)}${val};${use}\n`;
+  }
+}
+
+// waterline gradients, built from colour tokens
+const g = T.motif?.gradient;
+if (g) {
+  css += `\n  /* ---------- Waterline gradients ---------- */\n`;
+  const cap = g.cap.ramp.map((s, i) =>
+    `    var(--color-${s}) ${(i * 100 / 3).toFixed(2)}% ${((i + 1) * 100 / 3).toFixed(2)}%`).join(",\n");
+  css += `  --waterline-cap: linear-gradient(90deg,\n${cap});\n`;
+  const half = `calc(${g.band.gap} / 2)`;
+  const stops = [];
+  g.band.ramp.forEach((s, i) => {
+    const from = i === 0 ? "0" : `calc(${(i * 100 / 3).toFixed(2)}% + ${half})`;
+    const to = i === g.band.ramp.length - 1 ? "100%" : `calc(${((i + 1) * 100 / 3).toFixed(2)}% - ${half})`;
+    stops.push(`    var(--color-${s}) ${from} ${to}`);
+    if (i < g.band.ramp.length - 1) {
+      const e = ((i + 1) * 100 / 3).toFixed(2);
+      stops.push(`    var(--${g.band.gapToken}) calc(${e}% - ${half}) calc(${e}% + ${half})`);
+    }
+  });
+  css += `  --waterline-band: linear-gradient(90deg,\n${stops.join(",\n")});\n`;
+}
+
 css += `}\n\n/* Role aliases. Never define a value here, only point at a token. */\n:root {\n`;
 for (const [role, token] of Object.entries(T.alias))
   css += `  ${pad(`--${role}:`, 18)}var(--color-${token});\n`;
@@ -138,11 +196,16 @@ const js = `// GENERATED FROM tokens.json — DO NOT EDIT BY HAND.\n// Run \`npm
   + `export const motif = ${JSON.stringify(T.motif, null, 2)};\n\n`
   + `export const retired = ${JSON.stringify(T.retired, null, 2)};\n\n`
   + `export const documents = ${JSON.stringify(T.documents ?? {}, null, 2)};\n\n`
+  + `export const scale = ${JSON.stringify(T.scale ?? {}, null, 2)};\n\n`
+  + `export const radius = ${JSON.stringify(T.radius ?? {}, null, 2)};\n\n`
+  + `export const shadow = ${JSON.stringify(T.shadow ?? {}, null, 2)};\n\n`
   + `/** px at 96ppi -> docx half-points */\nexport const pxToHalfPt = (px) => Math.round((px * 72 / 96) * 2);\n\n`
   + `/** px at 96ppi -> twips */\nexport const pxToTwips = (px) => Math.round(px * 15);\n\n`
-  + `export default { color, brand, font, typeMap, page, motif, retired, documents, pxToHalfPt, pxToTwips };\n`;
+  + `export default { color, brand, font, typeMap, page, motif, retired, documents, scale, radius, shadow, pxToHalfPt, pxToTwips };\n`;
 
 mkdirSync(join(root, "build"), { recursive: true });
 writeFileSync(join(root, "build", "tokens.css"), css);
+writeFileSync(join(root, "build", "tokens.bundled.css"),
+  `@import "tailwindcss";\n\n/* Convenience entry. Prefer "@greatamerican/design-system/css"\n   and import tailwindcss yourself. */\n\n` + css);
 writeFileSync(join(root, "build", "tokens.js"), js);
-console.log("wrote build/tokens.css and build/tokens.js");
+console.log("wrote build/tokens.css, build/tokens.bundled.css and build/tokens.js");

@@ -66,9 +66,9 @@ export const brand = {
 
 export const font = {
   "stack": {
-    "display": "\"Archivo\", ui-sans-serif, system-ui, sans-serif",
-    "sans": "\"Nunito Sans\", ui-sans-serif, system-ui, sans-serif",
-    "utility": "\"Oswald\", ui-sans-serif, system-ui, sans-serif",
+    "display": "\"Archivo Variable\", \"Archivo\", ui-sans-serif, system-ui, sans-serif",
+    "sans": "\"Nunito Sans Variable\", \"Nunito Sans\", ui-sans-serif, system-ui, sans-serif",
+    "utility": "\"Oswald Variable\", \"Oswald\", ui-sans-serif, system-ui, sans-serif",
     "script": "\"Satisfy\", ui-serif, cursive"
   },
   "docx": {
@@ -78,7 +78,7 @@ export const font = {
     "body": "Nunito Sans",
     "utility": "Oswald"
   },
-  "note": "Never set bold:true on an Archivo run in docx. Weight lives in the family name. Google serves Archivo as a variable font whose default instance is SemiBold, so an unweighted load silently renders 600."
+  "note": "Variable family names come first so self-hosted @fontsource-variable resolves; the static name is the fallback for consumers loading from Google. Whichever is loaded wins, the other is inert. docx keeps the static names only — Word resolves the family literally. Never set bold:true on an Archivo run in docx; weight lives in the family name."
 };
 
 export const typeMap = [
@@ -256,7 +256,26 @@ export const motif = {
     "aqua-lt",
     "aqua-pale"
   ],
-  "note": "Tiles run dark to light, left to right, never reversed, at all three scales. The 14px glyph never stands alone."
+  "note": "Tiles run dark to light, left to right, never reversed, at all three scales. The 14px glyph never stands alone.",
+  "gradient": {
+    "_note": "Built from colour tokens so no consumer retypes an aqua value. The band separator uses var(--ground) so it follows the surface: sand on web, paper on a document page root. VERIFY the band against the site's current --waterline-band before adoption; the separator geometry is reconstructed.",
+    "cap": {
+      "ramp": [
+        "aqua",
+        "aqua-lt",
+        "aqua-pale"
+      ]
+    },
+    "band": {
+      "ramp": [
+        "aqua",
+        "aqua-lt",
+        "aqua-pale"
+      ],
+      "gap": "1px",
+      "gapToken": "ground"
+    }
+  }
 };
 
 export const retired = [
@@ -594,10 +613,73 @@ export const documents = {
   }
 };
 
+export const scale = {
+  "text": {
+    "xs": "12px",
+    "sm": "14px",
+    "base": "16px",
+    "md": "18px",
+    "lg": "20px",
+    "xl": "24px",
+    "2xl": "30px",
+    "3xl": "38px",
+    "4xl": "48px",
+    "5xl": "62px",
+    "6xl": "80px"
+  },
+  "leading": {
+    "tight": "1.1",
+    "snug": "1.25",
+    "normal": "1.5",
+    "relaxed": "1.65"
+  },
+  "tracking": {
+    "display": "-0.015em",
+    "wide": "0.04em",
+    "wider": "0.08em",
+    "label": "0.13em",
+    "eyebrow": "0.2em"
+  }
+};
+
+export const radius = {
+  "_note": "2xl was dropped in v1.1.0. It duplicated xl at 20px. Consumers must convert rounded-2xl to rounded-xl; leaving it undefined lets Tailwind's 16px default apply silently.",
+  "xs": {
+    "value": "3px",
+    "use": "Chips"
+  },
+  "sm": {
+    "value": "8px",
+    "use": "Buttons, inputs"
+  },
+  "md": {
+    "value": "10px",
+    "use": "Inline panels"
+  },
+  "lg": {
+    "value": "14px",
+    "use": "Cards, photos"
+  },
+  "xl": {
+    "value": "20px",
+    "use": "Large panels, drawers"
+  }
+};
+
+export const shadow = {
+  "_note": "Warm, hard, directional. Light from the upper left. rgba(92,74,54,*) is the warm shadow base and is deliberate — never a neutral grey. card, photo and menu were back-compat aliases duplicating sm, lg and lg; they do not enter the package.",
+  "xs": "0 1px 2px rgba(92, 74, 54, 0.06)",
+  "sm": "0 1px 2px rgba(92, 74, 54, 0.06), 0 4px 14px rgba(92, 74, 54, 0.07)",
+  "md": "0 2px 4px rgba(92, 74, 54, 0.07), 0 14px 32px rgba(92, 74, 54, 0.11)",
+  "lg": "0 3px 6px rgba(92, 74, 54, 0.08), 0 22px 48px rgba(92, 74, 54, 0.13)",
+  "overhang": "0 4px 0 rgba(92, 74, 54, 0.05), 0 18px 40px rgba(92, 74, 54, 0.12)",
+  "drawer": "-12px 0 40px rgba(92, 74, 54, 0.22)"
+};
+
 /** px at 96ppi -> docx half-points */
 export const pxToHalfPt = (px) => Math.round((px * 72 / 96) * 2);
 
 /** px at 96ppi -> twips */
 export const pxToTwips = (px) => Math.round(px * 15);
 
-export default { color, brand, font, typeMap, page, motif, retired, documents, pxToHalfPt, pxToTwips };
+export default { color, brand, font, typeMap, page, motif, retired, documents, scale, radius, shadow, pxToHalfPt, pxToTwips };
