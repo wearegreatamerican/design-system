@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+/* GENERATED FROM tokens.json — DO NOT EDIT BY HAND.
+   Run `npm run build`. Prose rules live in DESIGN-SYSTEM.md. */
+
+@theme static {
+
+  /* ---------- Structure ---------- */
+  --color-navy:         #1F3A5F;  /* BRAND COLOR. Primary structure: headings, nav, topbar */
+  --color-navy-lt:      #2B4A73;  /* Secondary structure, quiet hairline on dark panels */
+  --color-navy-pale:    #A9B3C0;  /* Quiet text on dark grounds, dividers that must read on navy */
+  --color-ink:          #14202E;  /* Dark ground. Footer, scrims, caption bars. Not a text color */
+  --color-slate:        #3A4654;  /* Body copy */
+
+  /* ---------- Neutral ramp, all warm ---------- */
+  --color-paper:        #FFFFFF;  /* Document and print page ground */
+  --color-shell:        #FFFDF9;  /* Raised surfaces, cards */
+  --color-sand:         #F7F4EE;  /* Web page ground */
+  --color-mortar:       #E6E0D6;  /* Panel and column fill, text on navy */
+  --color-tabby:        #D6D0C2;  /* Primary text on dark grounds, hairline rung on light grounds */
+  --color-aggregate:    #8B8378;  /* Group divider, section break, table outer edge, coquina texture */
+
+  /* ---------- Accent ramp ---------- */
+  --color-persimmon-lt: #E89A7C;  /* Small text on navy, accent rules on navy */
+  --color-persimmon:    #C4573F;  /* Mid accent, large text on light grounds */
+  --color-cherry:       #A84630;  /* BRAND COLOR. Eyebrows, rules, button grounds, logo */
+  --color-cherry-dk:    #933C29;  /* Button hover only */
+
+  /* ---------- Water accent ---------- */
+  --color-aqua:         #4A9B9B;  /* Light-ground ramp step 1, chip fills */
+  --color-aqua-lt:      #6BB5B5;  /* Light step 2, dark step 1. The only aqua that carries text */
+  --color-aqua-mid:     #9BCECC;  /* Dark ramp step 2. Decorative only */
+  --color-aqua-pale:    #CFE4E2;  /* Both ramps step 3. Decorative only */
+
+  /* ---------- Type ---------- */
+  --font-display:       "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-sans:          "Nunito Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-utility:       "Oswald", ui-sans-serif, system-ui, sans-serif;
+  --font-script:        "Satisfy", ui-serif, cursive;
+
+  /* ---------- Waterline tile motif ---------- */
+  --tile-eyebrow:       14px;
+  --tile-card-cap:      5px;
+  --tile-divider:       26px;
+}
+
+/* Role aliases. Never define a value here, only point at a token. */
+:root {
+  --ground:         var(--color-sand);
+  --ground-dark:    var(--color-ink);
+  --ground-print:   var(--color-paper);
+  --surface:        var(--color-shell);
+  --border:         var(--color-mortar);
+  --hairline:       var(--color-tabby);
+  --divider:        var(--color-aggregate);
+  --on-dark:        var(--color-tabby);
+  --on-dark-quiet:  var(--color-navy-pale);
+  --on-navy:        var(--color-mortar);
+}
+
+/* Retired, do not reintroduce:
+   #EDE7D6 -> mortar  (cream. Off the neutral curve)
+   #B0322C -> cherry  (orphan red, 11.6 dE from the logo)
+   #EAE4D6 -> mortar  (topbar-text, 2.4 dE duplicate)
+   #143350 -> ink  (old navy-800)
+   #1F4E79 -> navy  (old navy-600, persimmon-lt fails on it)
+   #F0EBE0 -> shell  (old shell value)
+   #FBF8F2 -> paper  (old paper value)
+   #E0805F -> persimmon-lt  (old persimmon-lt, fails AA at sizes in use)
+   #EDE7DC -> tabby  (document hairline)
+   #EFE9DE -> mortar  (document panel fill)
+   #CFC7B9 -> aggregate  (document group divider)
+   #5A6674 -> slate  (old ink-body)
+*/
