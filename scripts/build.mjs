@@ -9,6 +9,34 @@ import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const checkOnly = process.argv.includes("--check");
+
+// --tag v1.1.1 — release guard, run in CI on a tag push. A tag and the version it
+// publishes must agree. v1.0.0 and v1.1.0 both pointed at c9a86d9, so a consumer
+// pinned to #v1.0.0 installed 1.1.0, and npm caches by spec, so two machines on the
+// same pin held different code. This is a standalone check: it asserts and exits.
+// The flag's presence is found separately from its value, so a bare `--tag` with
+// nothing after it fails loudly instead of falling through to an ordinary build.
+const tagAt = process.argv.findIndex((a) => a === "--tag" || a.startsWith("--tag="));
+if (tagAt !== -1) {
+  const tagArg = process.argv[tagAt].startsWith("--tag=")
+    ? process.argv[tagAt].slice(6)
+    : process.argv[tagAt + 1];
+  if (!tagArg || tagArg.startsWith("-")) {
+    console.error("\nFAILED\n  ✗ --tag needs a tag name, e.g. --tag v1.1.1\n");
+    process.exit(1);
+  }
+  const want = tagArg.replace(/^v/, "");
+  const got = JSON.parse(readFileSync(join(root, "package.json"), "utf8")).version;
+  if (got !== want) {
+    console.error(`\nFAILED\n  ✗ tag ${tagArg} publishes package.json version ${got}, not ${want}.`
+      + `\n    Bump the version to ${want} and retag, or cut the tag as v${got}.`
+      + `\n    Never move a published tag: consumers pinned to it have already cached the old code.\n`);
+    process.exit(1);
+  }
+  console.log(`ok — tag ${tagArg} matches package.json version ${got}`);
+  process.exit(0);
+}
+
 const T = JSON.parse(readFileSync(join(root, "tokens.json"), "utf8"));
 
 // ---------- color math ----------
@@ -90,26 +118,52 @@ const dupes = (label, entries) => {
   }
 };
 const plain = (o) => Object.entries(o ?? {}).filter(([k]) => !k.startsWith("_"));
+// "Archivo Variable", "Archivo", ui-sans-serif -> ["Archivo Variable", "Archivo", "ui-sans-serif"]
+const families = (stack) => String(stack).split(",").map((f) => f.trim().replace(/^["']|["']$/g, ""));
 dupes("color",  Object.entries(T.color).map(([n, t]) => [n, t.value]));
 dupes("radius", plain(T.radius).map(([n, r]) => [n, r.value]));
 dupes("shadow", plain(T.shadow));
 dupes("text",   plain(T.scale?.text));
 dupes("leading", plain(T.scale?.leading));
 dupes("tracking", plain(T.scale?.tracking));
+// tile.unit is metadata, not a scale. §5 says there are exactly three scales, so two
+// of them sharing a number means the motif has grown two names for one thing.
+dupes("motif.tile", plain(T.motif?.tile).filter(([k]) => k !== "unit"));
+// compared on the primary family, not the whole stack: two roles that lead with the
+// same face are one face wearing two names, whatever their fallbacks are
+dupes("font.stack", plain(T.font?.stack).map(([n, v]) => [n, families(v)[0]]));
+dupes("motion", plain(T.motion));
+
+// Variable families must lead. Consumers self-hosting through @fontsource-variable
+// register "Archivo Variable", not "Archivo", so a stack naming only the static family
+// falls through to ui-sans-serif with no error and no warning — just slightly wrong
+// type. 1.0.0 shipped exactly that. Naming both is the fix; this stops it regressing.
+const NO_VARIABLE_BUILD = new Set(["script"]);  // Satisfy has no variable build
+for (const [role, stack] of plain(T.font?.stack)) {
+  if (NO_VARIABLE_BUILD.has(role)) continue;
+  const [first, second] = families(stack);
+  const base = first?.replace(/ Variable$/, "");
+  if (!first?.endsWith(" Variable"))
+    errors.push(`font.stack.${role} leads with "${first}". The variable family must come first, `
+      + `or @fontsource-variable consumers silently fall back to ui-sans-serif`);
+  else if (second !== base)
+    errors.push(`font.stack.${role} leads with "${first}" but follows it with "${second}". `
+      + `The second family must be "${base}", the static build of the same face`);
+}
 
 // gradient ramps must name real tokens
 for (const [n, g] of plain(T.motif?.gradient ?? {}))
   for (const step of g.ramp ?? [])
     if (!T.color[step]) errors.push(`motif.gradient.${n} references unknown token "${step}"`);
 
-if (errors.length) {
+const report = () => {
+  if (!errors.length) return;
   console.error("\nFAILED\n" + errors.map((e) => "  ✗ " + e).join("\n") + "\n");
   process.exit(1);
-}
-if (warnings.length) console.warn("\n" + warnings.map((w) => "  ! " + w).join("\n") + "\n");
-const docCount = Object.keys(T.documents ?? {}).filter((k) => !k.startsWith("_")).length;
-console.log(`ok — ${Object.keys(T.color).length} tokens, ${T.rules.minContrast.length} contrast rules hold, ${docCount} document types`);
-if (checkOnly) process.exit(0);
+};
+// Token errors are fatal here rather than after generation: asserting on CSS built
+// from a token file we already know is broken would only report noise.
+report();
 
 // ---------- generate CSS ----------
 const groups = { structure: "Structure", neutral: "Neutral ramp, all warm", accent: "Accent ramp", water: "Water accent" };
@@ -199,6 +253,35 @@ for (const [role, token] of Object.entries(T.alias))
 css += `}\n\n/* Retired, do not reintroduce:\n`;
 for (const r of T.retired) if (!r.keep) css += `   ${r.value} -> ${r.replacedBy}  (${r.reason})\n`;
 css += `*/\n`;
+
+// ---------- assert the generated gradient contract ----------
+// The band and the cap are opposites on purpose, and this is the assertion that keeps
+// one from being "fixed" into the other. 1.1.0 shipped the band as a percentage
+// linear-gradient: instead of a repeating 26px tile it stretched three tiles across the
+// whole element, drawing three bars where ~59 belong on a 1600px divider. Nothing in the
+// token file was wrong, so only reading the generated CSS can catch it. A screenshot did.
+const declOf = (name) => css.match(new RegExp(`--${name}:\\s*([^;]*);`))?.[1];
+const GRADIENT_CONTRACT = [
+  { name: "waterline-band", starts: "repeating-linear-gradient", banned: "%",
+    why: "the band tiles at a fixed --tile-divider scale, so every stop is a length, never a percentage" },
+  { name: "waterline-cap", starts: "linear-gradient", banned: "px",
+    why: "the cap stretches to its card's width, so its stops are percentage thirds, never a fixed length" },
+];
+for (const c of GRADIENT_CONTRACT) {
+  const value = declOf(c.name);
+  if (value === undefined) { errors.push(`--${c.name} is missing from the generated CSS`); continue; }
+  if (!value.startsWith(c.starts))
+    errors.push(`--${c.name} must be a ${c.starts}, got "${value.split("(")[0]}". ${c.why}`);
+  if (value.includes(c.banned))
+    errors.push(`--${c.name} contains "${c.banned}" in its stops. ${c.why}`);
+}
+report();
+
+if (warnings.length) console.warn("\n" + warnings.map((w) => "  ! " + w).join("\n") + "\n");
+const docCount = Object.keys(T.documents ?? {}).filter((k) => !k.startsWith("_")).length;
+console.log(`ok — ${Object.keys(T.color).length} tokens, ${T.rules.minContrast.length} contrast rules hold, `
+  + `${docCount} document types, gradient contract holds`);
+if (checkOnly) process.exit(0);
 
 // ---------- generate JS ----------
 const js = `// GENERATED FROM tokens.json — DO NOT EDIT BY HAND.\n// Run \`npm run build\`.\n\n`

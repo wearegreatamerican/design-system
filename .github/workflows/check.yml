@@ -16,3 +16,8 @@ jobs:
             echo "build/ is out of date. Run npm run build and commit."
             exit 1
           }
+      # A tag and the version it publishes must agree. v1.0.0 and v1.1.0 both pointed
+      # at c9a86d9, so anyone pinned to #v1.0.0 installed 1.1.0 instead.
+      - name: Version must match the tag
+        if: github.ref_type == 'tag'
+        run: node scripts/build.mjs --tag "$GITHUB_REF_NAME"
