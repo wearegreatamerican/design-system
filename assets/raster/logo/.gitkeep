@@ -1,0 +1,12 @@
+Generated PNGs for the logo. Written by `npm run raster` from the SVGs in
+../../logo/. Never hand-edit — see ../README.md.
+
+Expected, per the outputs declared in tokens.json under assets.raster:
+
+  ga-logo-400.png        ga-logo-800.png        ga-logo-1600.png
+  ga-logo-sand-400.png   ga-logo-sand-800.png   ga-logo-sand-1600.png
+  ga-logo-white-400.png  ga-logo-white-800.png  ga-logo-white-1600.png
+  ga-logo-black-400.png  ga-logo-black-800.png  ga-logo-black-1600.png
+
+Empty until the logo SVGs land. Sizes and padding are declared in tokens.json,
+never by adding a file here.

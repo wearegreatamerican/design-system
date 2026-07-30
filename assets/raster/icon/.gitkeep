@@ -1,0 +1,11 @@
+Generated PNGs for the icon. Written by `npm run raster` from the SVGs in
+../../icon/. Never hand-edit — see ../README.md.
+
+Expected, per the outputs declared in tokens.json under assets.raster:
+
+  ga-icon-16.png   ga-icon-32.png   ga-icon-48.png   ga-icon-64.png
+  ga-icon-180.png  ga-icon-192.png  ga-icon-512.png
+  ga-icon-white-32.png  ga-icon-white-192.png  ga-icon-white-512.png
+
+Icon outputs use pad 0 deliberately: favicons read edge-to-edge.
+Empty until the icon SVGs land.

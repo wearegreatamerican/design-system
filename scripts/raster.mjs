@@ -34,9 +34,9 @@ for (const out of R.outputs ?? []) {
   const src = join(root, out.source);
   // Artwork lands later than infrastructure, so a missing source is a normal state,
   // not an error. Report it and keep going.
-  if (!existsSync(src)) { skipped.push(out); continue; }
-
-  const svg = readFileSync(src);
+  // The declaration is checked BEFORE the source is looked for. Artwork arrives last,
+  // so validating only what has a source would leave a malformed output undiscovered
+  // until the day the SVG lands — which is the worst moment to find out.
   const sizes = [
     ...(out.widths ?? []).map((n) => ({ n, square: false })),
     ...(out.squares ?? []).map((n) => ({ n, square: true })),
@@ -56,8 +56,24 @@ for (const out of R.outputs ?? []) {
     continue;
   }
 
+  // `dir` is required rather than defaulted: guessing a subdirectory would scatter
+  // output across assets/raster/ with nothing to say which tree it belongs to.
+  if (!out.dir || typeof out.dir !== "string") {
+    failed.push({ out, size: null, err: new Error(
+      `declares no "dir". Every output names the subdirectory of ${R.outputDir}/ it writes to`) });
+    continue;
+  }
+
+  // Only now does a missing source matter, and it is a normal state, not an error.
+  if (!existsSync(src)) { skipped.push(out); continue; }
+
+  const svg = readFileSync(src);
+  const destDir = join(outDir, out.dir);
+  mkdirSync(destDir, { recursive: true });
+
   for (const { n, square } of sizes) {
-    const file = `${out.name}-${n}.png`;
+    const file = `${out.dir}/${out.name}-${n}.png`;
+    const dest = join(destDir, `${out.name}-${n}.png`);
     const inner = Math.round(n * (1 - 2 * pad));
     if (inner < 1) {
       failed.push({ out, size: n, err: new Error(
@@ -91,11 +107,11 @@ for (const out of R.outputs ?? []) {
         .png({ compressionLevel: 9, adaptiveFiltering: true })
         // transparent always. Never composite onto a colour: a -white logo flattened
         // onto white is invisible, and a -sand one onto white is a subtly wrong colour.
-        .toFile(join(outDir, file));
+        .toFile(dest);
 
-      const info = await sharp(join(outDir, file)).metadata();
+      const info = await sharp(dest).metadata();
       written.push({
-        file, w: info.width, h: info.height, bytes: statSync(join(outDir, file)).size,
+        file, w: info.width, h: info.height, bytes: statSync(dest).size,
         pad, inner, innerH: info.height - total,
       });
     } catch (err) {

@@ -195,14 +195,25 @@ for (const file of walk(join(root, "assets")).filter((f) => f.endsWith(".svg")))
 // different librsvg versions emit different bytes for identical input, so byte-comparing
 // a committed PNG against a fresh render fails spuriously from one machine to the next.
 if (A.raster) {
+  // Declared paths are {dir}/{name}-{size}.png, matched against a recursive walk of the
+  // output tree, so a PNG in the right directory but the wrong subdirectory is caught too.
   const declared = new Set((A.raster.outputs ?? []).flatMap((o) =>
-    [...(o.widths ?? []), ...(o.squares ?? [])].map((n) => `${o.name}-${n}.png`)));
-  const dir = join(root, A.raster.outputDir);
-  for (const f of (existsSync(dir) ? readdirSync(dir) : []).filter((f) => f.toLowerCase().endsWith(".png")))
-    if (!declared.has(f))
-      errors.push(`${A.raster.outputDir}/${f} is not declared in assets.raster.outputs. `
+    [...(o.widths ?? []), ...(o.squares ?? [])].map((n) => `${o.dir}/${o.name}-${n}.png`)));
+  const outRoot = join(root, A.raster.outputDir);
+  for (const f of walk(outRoot).filter((f) => f.toLowerCase().endsWith(".png"))) {
+    const rel = f.slice(outRoot.length + 1);
+    if (!declared.has(rel))
+      errors.push(`${A.raster.outputDir}/${rel} is not declared in assets.raster.outputs. `
         + `It was placed by hand, so \`npm run raster\` does not maintain it and it will drift. `
         + `Declare it there or delete it`);
+  }
+  // Source directories hold artwork, never output. A generated file sitting beside a
+  // source is one someone eventually hand-edits believing it is the source.
+  for (const srcDir of ["assets/logo", "assets/icon"])
+    for (const f of walk(join(root, srcDir)).filter((f) => f.toLowerCase().endsWith(".png")))
+      errors.push(`${f.replace(root + "/", "")} is a generated file in a source directory. `
+        + `PNGs belong under ${A.raster.outputDir}/, which is generated and committed; `
+        + `${srcDir}/ holds SVG sources only`);
 }
 
 // duplicate values, per namespace

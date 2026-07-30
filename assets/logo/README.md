@@ -44,10 +44,14 @@ no file to bake it into.
 | `primary/` | The full lockup: mark plus wordmark. The default logo. |
 | `wordmark/` | The name set as type, no mark. |
 | `mark/` | The symbol alone — avatars, favicons, stamps. |
-| `raster/` | PNG exports derived from the SVGs. Regenerated, never hand-edited. |
 | `print/` | EPS and PDF masters in CMYK or spot. |
 
 Each empty directory carries a `.gitkeep` naming the files expected in it.
+
+**Generated PNGs are not here.** They live in `../raster/logo/`, outside this
+tree, so nothing generated sits beside a source where it could be mistaken for one
+and edited. `npm run build` fails if it finds a `.png` anywhere under this
+directory.
 
 ## The five treatments
 
