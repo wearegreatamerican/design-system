@@ -113,8 +113,12 @@ for (const [name, d] of Object.entries(T.documents ?? {})) {
 // fails here even though cherry is a perfectly valid brand colour somewhere else.
 const A = T.assets ?? {};
 const TR = A.treatments ?? {};
-const allowed = (name) => {
-  const t = TR[name];
+// A kind may override a shared treatment: the icon's full colour is navy + sand, the
+// logo's is navy + cherry, so "icon:full" wins over "full" for anything under /icon/.
+// Scoped keys carry a colon, which a filename suffix cannot, so they are never resolved
+// from a filename — see the suffix match below.
+const allowed = (name, kind) => {
+  const t = TR[`${kind}:${name}`] ?? TR[name];
   if (!t) return null;
   return new Set([
     ...(t.tokens ?? []).map((k) => T.color[k]?.value.toUpperCase()).filter(Boolean),
@@ -143,6 +147,21 @@ const coloursIn = (svg) => {
   }
   return { found, unreadable };
 };
+// Declared treatments must resolve. Without this a typo in defaultTreatment sits
+// undetected until artwork exists to fail against it, and the artwork is what arrives
+// last — so the error would surface at the least convenient possible moment.
+for (const kind of ["logo", "icon"]) {
+  if (!A[kind]) continue;
+  const declared = [
+    ["defaultTreatment", [A[kind].defaultTreatment]],
+    ["treatments", A[kind].treatments ?? []],
+  ];
+  for (const [field, names] of declared)
+    for (const n of names.filter(Boolean))
+      if (!allowed(n, kind))
+        errors.push(`assets.${kind}.${field} names treatment "${n}", which assets.treatments does not define`);
+}
+
 // Source SVGs are tight-cropped to the mark. Padding baked into a viewBox compounds
 // with the generator's padding invisibly, so the geometry is surfaced rather than
 // checked: a number in the log is enough for a human to spot a padded source, and
@@ -156,9 +175,9 @@ for (const file of walk(join(root, "assets")).filter((f) => f.endsWith(".svg")))
     ? { rel, w: +vb[3], h: +vb[4], minX: +vb[1], minY: +vb[2] }
     : { rel, missing: true });
   const kind = rel.includes("/icon/") ? "icon" : "logo";
-  const suffix = Object.keys(TR).find((t) => base.endsWith(`-${t}`));
+  const suffix = Object.keys(TR).filter((t) => !t.includes(":")).find((t) => base.endsWith(`-${t}`));
   const treatment = suffix ?? A[kind]?.defaultTreatment;
-  const ok = allowed(treatment);
+  const ok = allowed(treatment, kind);
   if (!ok) { errors.push(`${rel}: unknown treatment "${treatment}"`); continue; }
   const { found, unreadable } = coloursIn(readFileSync(file, "utf8"));
   for (const h of found)

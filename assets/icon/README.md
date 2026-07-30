@@ -34,20 +34,29 @@ placement rule still applies wherever the icon is set beside type or a claim.
 
 ## The four treatments
 
-| Suffix | Colours | Use |
-|---|---|---|
-| *(none)* | navy | Full colour. The default. |
-| `-sand` | sand | Reversed. Light on dark, in full-colour contexts |
-| `-white` | paper `#FFFFFF` | Reversed, for black-and-white documents only |
-| `-black` | `#000000` | Single colour |
+| Suffix | Colours | Stars | Use |
+|---|---|---|---|
+| *(none)* | navy + sand | sand | Full colour. The default. |
+| `-sand` | sand | dropped | Reversed. Light on dark, in full-colour contexts |
+| `-white` | paper `#FFFFFF` | dropped | Reversed, for black-and-white documents only |
+| `-black` | `#000000` | dropped | Single colour |
 
-**Navy is the full-colour treatment.** That is not a placeholder or a fallback —
-the icon is monochrome by design, so there is no separate two-colour version and
-nothing is missing. This is the one way the icon differs from the logo, which has
-five treatments because its default combines navy and cherry.
+**The full-colour icon is two-tone: navy stripes with sand stars.** The stars are
+sand because they have to stand against the flag — in a single colour they would
+be the same value as the field behind them and simply disappear.
 
-There is deliberately no `-navy` file. An unsuffixed name already resolves to the
-navy treatment, and two filenames for one treatment is one too many.
+So the icon's full colour is **navy + sand**, which is not the logo's **navy +
+cherry**. Both are called `full`, and `tokens.json` distinguishes them with a
+kind-scoped treatment key, `icon:full`. Under `assets/icon/` the name `full`
+resolves to that; everywhere else it resolves to the shared one.
+
+**The single-colour treatments drop the stars entirely** rather than render them
+in the flag's own colour, where they would not read. That is visible in the
+files: 25 paths in the full-colour icon, 6 in each of the other three.
+
+There is deliberately no `-navy` file. The unsuffixed name is the full-colour
+treatment, and a navy-only icon would be the flag with its stars silently gone —
+which is what `-black` and `-white` already are, in their own colours.
 
 ### Sand versus white
 
@@ -66,8 +75,8 @@ to read as mistakes rather than intent, and using them would require a documente
 colour exemption — a permanent hole in the palette rules maintained for one
 asset.
 
-The stylized mark needs no exemption. It is drawn in navy and validates against
-the ordinary treatment rules like everything else.
+The stylized mark needs no exemption. It is drawn in navy and sand, both palette
+colours, and validates against the ordinary treatment rules like everything else.
 
 ## It forms part of a claim
 
