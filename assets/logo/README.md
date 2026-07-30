@@ -4,6 +4,39 @@
 it changes in the SVG and everything else is regenerated — never the other way
 round.
 
+## Sources are tight-cropped
+
+**Source SVGs are tight-cropped to the mark: no padding in the viewBox.** All
+padding comes from the generator, declared per output as `pad` in `tokens.json`.
+
+Padding baked into a source compounds with generated padding *invisibly*. The
+source looks correct opened on its own, every generated PNG comes out with a
+margin roughly twice what was asked for, and nothing anywhere reports a problem.
+
+`npm run build` prints each source's viewBox and aspect ratio for this reason. It
+does not fail on them — no threshold can tell a padded source from a genuinely
+wide lockup — but a ratio that does not match the mark is the signal.
+
+## Clear space is not padding
+
+These are two different numbers and are deliberately kept in separate fields.
+
+**Clear space** is a brand rule: the minimum distance between the logo and
+anything else, in any medium, expressed relative to the mark itself. It governs
+*placement* — where the logo may sit on a page, a wall, a vehicle. It lives in
+`assets.logo.clearSpace` as a `unit` (the reference measure, e.g. the cap-height
+of the wordmark) and a `multiple` of it. **Both are null until measured against
+real artwork.**
+
+**Padding** is transparent pixels baked into a generated PNG, declared per output
+as `pad`. A raster file cannot enforce a placement rule, so padding approximates
+clear space for the case where someone drops the file into a layout without
+reading any of this.
+
+Do not collapse them into one value. A favicon wants zero padding and still has
+clear space; a billboard has clear space and no padding at all, because there is
+no file to bake it into.
+
 ## Subdirectories
 
 | Directory | Holds |

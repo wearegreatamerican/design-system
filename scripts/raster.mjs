@@ -24,6 +24,8 @@ if (!R) {
 const outDir = join(root, R.outputDir);
 mkdirSync(outDir, { recursive: true });
 
+const TRANSPARENT = { r: 0, g: 0, b: 0, alpha: 0 };
+
 const written = [];
 const skipped = [];
 const failed = [];
@@ -44,22 +46,46 @@ for (const out of R.outputs ?? []) {
     continue;
   }
 
+  // pad is a fraction of the longest rendered edge, added on all four sides. The
+  // declared size is the FINAL dimension including it, so the artwork renders into an
+  // inner box and the padding is extended around it — not added on top, which would
+  // silently make every output bigger than declared.
+  const pad = out.pad ?? 0;
+  if (typeof pad !== "number" || !(pad >= 0) || pad >= 0.5) {
+    failed.push({ out, size: null, err: new Error(`pad must be a number in [0, 0.5), got ${JSON.stringify(out.pad)}`) });
+    continue;
+  }
+
   for (const { n, square } of sizes) {
     const file = `${out.name}-${n}.png`;
+    const inner = Math.round(n * (1 - 2 * pad));
+    if (inner < 1) {
+      failed.push({ out, size: n, err: new Error(
+        `pad ${pad} leaves an inner box of ${inner}px at size ${n}. Lower the pad or drop this size`) });
+      continue;
+    }
     try {
       // density scales the SVG rasterisation up front so the vector is rendered at the
       // target size rather than rendered small and scaled up. Without it, large outputs
-      // come out soft.
+      // come out soft. Keyed to the inner box, which is what actually gets rendered.
       const meta = await sharp(svg).metadata();
-      const base = square ? Math.max(meta.width ?? n, meta.height ?? n) : (meta.width ?? n);
-      const density = Math.min(2400, Math.max(72, Math.ceil((72 * n) / base) * 2));
+      const base = square ? Math.max(meta.width ?? inner, meta.height ?? inner) : (meta.width ?? inner);
+      const density = Math.min(2400, Math.max(72, Math.ceil((72 * inner) / base) * 2));
 
       let img = sharp(svg, { density });
       img = square
-        // exact square dimensions, the source centred inside them, nothing cropped
-        ? img.resize(n, n, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
+        // exact inner square, the source centred inside it, nothing cropped
+        ? img.resize(inner, inner, { fit: "contain", background: TRANSPARENT })
         // width-driven, aspect ratio preserved
-        : img.resize({ width: n });
+        : img.resize({ width: inner });
+
+      // Split the padding so the final width lands on exactly the declared size even
+      // when the total is odd. Height takes the same absolute pixels, which keeps the
+      // margin visually even on all four sides for the width-driven outputs too.
+      const total = n - inner;
+      const lead = Math.floor(total / 2);
+      const trail = total - lead;
+      if (total > 0) img = img.extend({ top: lead, bottom: trail, left: lead, right: trail, background: TRANSPARENT });
 
       await img
         .png({ compressionLevel: 9, adaptiveFiltering: true })
@@ -68,7 +94,10 @@ for (const out of R.outputs ?? []) {
         .toFile(join(outDir, file));
 
       const info = await sharp(join(outDir, file)).metadata();
-      written.push({ file, w: info.width, h: info.height, bytes: statSync(join(outDir, file)).size });
+      written.push({
+        file, w: info.width, h: info.height, bytes: statSync(join(outDir, file)).size,
+        pad, inner, innerH: info.height - total,
+      });
     } catch (err) {
       failed.push({ out, size: n, err });
     }
@@ -79,9 +108,16 @@ for (const out of R.outputs ?? []) {
 if (written.length) {
   const w = (k) => Math.max(...written.map((r) => String(r[k]).length));
   const [fw, bw] = [w("file"), w("bytes")];
+  const dim = (a, b) => `${a} x ${b}`;
+  const outW = Math.max(...written.map((r) => dim(r.w, r.h).length));
+  const innW = Math.max(...written.map((r) => dim(r.inner, r.innerH).length));
   console.log(`\nwrote ${written.length} file${written.length === 1 ? "" : "s"} to ${R.outputDir}/\n`);
+  // inner box is shown next to the final size so a padding mistake is visible here
+  // rather than in a file browser three weeks later
+  console.log(`  ${"file".padEnd(fw)}  ${"output".padEnd(outW)}  ${"inner box".padEnd(innW)}  pad   ${"bytes".padStart(bw)}`);
   for (const r of written)
-    console.log(`  ${r.file.padEnd(fw)}  ${String(r.w).padStart(4)} x ${String(r.h).padEnd(4)}  ${String(r.bytes).padStart(bw)} bytes`);
+    console.log(`  ${r.file.padEnd(fw)}  ${dim(r.w, r.h).padEnd(outW)}  ${dim(r.inner, r.innerH).padEnd(innW)}  `
+      + `${String(r.pad).padEnd(4)}  ${String(r.bytes).padStart(bw)}`);
 } else {
   console.log(`\nwrote 0 files to ${R.outputDir}/`);
 }

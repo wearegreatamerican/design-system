@@ -2,6 +2,36 @@
 
 The made-in-USA icon. **SVG is canonical**, same as the logo.
 
+## Sources are tight-cropped
+
+**Source SVGs are tight-cropped to the mark: no padding in the viewBox.** All
+padding comes from the generator, declared per output as `pad` in `tokens.json`.
+
+Padding baked into a source compounds with generated padding invisibly — the file
+looks right on its own and every render made from it is wrong, with nothing
+reporting a problem. `npm run build` prints each source's viewBox and aspect ratio
+so a padded source is visible in the log.
+
+This matters more for the icon than for the logo, because the icon renders at
+**16px**. A source carrying even a little slack loses a disproportionate share of
+the mark at favicon sizes.
+
+## Clear space is not padding
+
+**Clear space** is a brand rule governing placement — the minimum distance between
+the icon and anything else, in any medium, relative to the mark. It lives in
+`assets.icon.clearSpace` as a `unit` and a `multiple`, **both null until measured
+against real artwork.**
+
+**Padding** is transparent pixels baked into a generated PNG, declared per output
+as `pad`, approximating clear space for files dropped into a layout by someone who
+has not read this.
+
+The icon's raster outputs use **`pad: 0` deliberately.** Favicons and touch icons
+are meant to read edge-to-edge, and at 16px even 12% padding costs roughly a fifth
+of the mark. Zero padding in the file does not mean zero clear space in use — the
+placement rule still applies wherever the icon is set beside type or a claim.
+
 ## The four treatments
 
 | Suffix | Colours | Use |

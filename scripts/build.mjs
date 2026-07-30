@@ -143,9 +143,18 @@ const coloursIn = (svg) => {
   }
   return { found, unreadable };
 };
+// Source SVGs are tight-cropped to the mark. Padding baked into a viewBox compounds
+// with the generator's padding invisibly, so the geometry is surfaced rather than
+// checked: a number in the log is enough for a human to spot a padded source, and
+// there is no threshold that could tell padding from a genuinely wide lockup.
+const geometry = [];
 for (const file of walk(join(root, "assets")).filter((f) => f.endsWith(".svg"))) {
   const rel = file.replace(root + "/", "");
   const base = rel.split("/").pop().replace(/\.svg$/, "");
+  const vb = readFileSync(file, "utf8").match(/viewBox\s*=\s*["']\s*([-\d.eE]+)[,\s]+([-\d.eE]+)[,\s]+([-\d.eE]+)[,\s]+([-\d.eE]+)/);
+  geometry.push(vb
+    ? { rel, w: +vb[3], h: +vb[4], minX: +vb[1], minY: +vb[2] }
+    : { rel, missing: true });
   const kind = rel.includes("/icon/") ? "icon" : "logo";
   const suffix = Object.keys(TR).find((t) => base.endsWith(`-${t}`));
   const treatment = suffix ?? A[kind]?.defaultTreatment;
@@ -230,6 +239,22 @@ const report = () => {
   console.error("\nFAILED\n" + errors.map((e) => "  ✗ " + e).join("\n") + "\n");
   process.exit(1);
 };
+// Reported, never enforced. A padded source shows up here as an aspect ratio that does
+// not match the mark it is meant to be cropped to. Printed before the error report, not
+// after the ok line: geometry is independent of whether anything failed, and a diagnostic
+// that only appears once everything already passes is no use for diagnosing.
+if (geometry.length) {
+  const wRel = Math.max(...geometry.map((g) => g.rel.length));
+  console.log(`\nsvg sources — viewBox and aspect ratio (sources are tight-cropped; padding comes from the generator):`);
+  for (const g of geometry) {
+    if (g.missing) { console.log(`  ${g.rel.padEnd(wRel)}  no viewBox — cannot report geometry`); continue; }
+    const ratio = g.h ? g.w / g.h : NaN;
+    const shape = !isFinite(ratio) ? "" : ratio > 1.05 ? "landscape" : ratio < 0.95 ? "portrait" : "square";
+    const origin = (g.minX || g.minY) ? `  origin ${g.minX},${g.minY}` : "";
+    console.log(`  ${g.rel.padEnd(wRel)}  ${`${g.w} x ${g.h}`.padEnd(18)} ratio ${ratio.toFixed(3).padEnd(7)} ${shape}${origin}`);
+  }
+}
+
 // Token errors are fatal here rather than after generation: asserting on CSS built
 // from a token file we already know is broken would only report noise.
 report();
@@ -350,6 +375,7 @@ if (warnings.length) console.warn("\n" + warnings.map((w) => "  ! " + w).join("\
 const docCount = Object.keys(T.documents ?? {}).filter((k) => !k.startsWith("_")).length;
 console.log(`ok — ${Object.keys(T.color).length} tokens, ${T.rules.minContrast.length} contrast rules hold, `
   + `${docCount} document types, gradient contract holds`);
+
 if (checkOnly) process.exit(0);
 
 // ---------- generate JS ----------
