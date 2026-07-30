@@ -1,0 +1,11 @@
+Primary logo lockup — the full mark plus wordmark. SVG is canonical.
+Expected files, one per treatment (see ../README.md):
+
+  ga-logo.svg         full colour, navy + cherry. The default.
+  ga-logo-navy.svg    single colour, navy, on light grounds
+  ga-logo-sand.svg    reversed, sand, on navy or ink in full-colour contexts
+  ga-logo-white.svg   reversed, #FFFFFF, black-and-white documents only
+  ga-logo-black.svg   single colour, #000000, fax / engraving / embroidery
+
+Not yet committed: logo navy is moving from #1F4E79 to #1F3A5F, and the SVG
+colour check would correctly reject the current artwork. Lands as revision 1.1.0.

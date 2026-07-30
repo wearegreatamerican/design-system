@@ -1,0 +1,9 @@
+Wordmark only — the name set as type, no mark. SVG is canonical.
+
+  ga-wordmark.svg         full colour, navy + cherry. The default.
+  ga-wordmark-navy.svg    single colour, navy, on light grounds
+  ga-wordmark-sand.svg    reversed, sand, full-colour contexts
+  ga-wordmark-white.svg   reversed, #FFFFFF, black-and-white documents only
+  ga-wordmark-black.svg   single colour, #000000
+
+Awaiting the navy recolour — see ../primary/.gitkeep.

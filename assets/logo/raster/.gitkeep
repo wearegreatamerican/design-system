@@ -1,0 +1,11 @@
+PNG exports, derived from the SVGs — never drawn by hand, never the source of
+truth. Regenerate from ../primary/, ../wordmark/ and ../mark/ when those change.
+
+Expected, per lockup and treatment, on transparent ground:
+
+  ga-logo@1x.png  ga-logo@2x.png  ga-logo@3x.png
+  ga-logo-sand@1x.png   ... and so on for -navy, -white, -black
+  ga-mark-512.png  ga-mark-256.png  ga-mark-64.png  ga-mark-32.png
+
+Note: the SVG colour check does not read PNGs. A raster carrying the wrong
+treatment's colours cannot be caught automatically — regenerate, do not edit.

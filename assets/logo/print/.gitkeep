@@ -1,0 +1,9 @@
+Print masters. These come from the artwork producer, not from this repo, and are
+CMYK or spot — not the RGB hexes the SVG check validates.
+
+  ga-logo-cmyk.eps   ga-logo-cmyk.pdf
+  ga-logo-navy.eps   ga-logo-black.eps
+  ga-logo-1c.eps     single-colour master for engraving and embroidery
+
+Brand CMYK builds and their FOGRA39L round-trip deltas live in tokens.json under
+"brand". Do not re-separate RGB artwork to CMYK by eye.

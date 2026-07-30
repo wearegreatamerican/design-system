@@ -1,0 +1,10 @@
+Mark only — the symbol with no wordmark, for avatars, favicons and stamps.
+SVG is canonical.
+
+  ga-mark.svg         full colour, navy + cherry. The default.
+  ga-mark-navy.svg    single colour, navy, on light grounds
+  ga-mark-sand.svg    reversed, sand, full-colour contexts
+  ga-mark-white.svg   reversed, #FFFFFF, black-and-white documents only
+  ga-mark-black.svg   single colour, #000000
+
+Awaiting the navy recolour — see ../primary/.gitkeep.

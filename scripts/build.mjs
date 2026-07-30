@@ -3,7 +3,7 @@
 // Reads tokens.json, writes build/tokens.css and build/tokens.js, and validates.
 // No dependencies. Run `node scripts/build.mjs` or `--check` to validate only.
 
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -106,6 +106,37 @@ for (const [name, d] of Object.entries(T.documents ?? {})) {
     errors.push(`document "${name}" is transactional but declares motifs "${d.motifs}". Transactional documents carry none`);
   if (d.class === "transactional" && d.ground !== "paper")
     errors.push(`document "${name}" is transactional but sits on "${d.ground}". Transactional documents are designed on paper`);
+}
+
+// every SVG under assets/ must match its treatment's allowed colours. Not a flat palette
+// check: the treatment comes from the filename suffix, so a -sand logo carrying cherry
+// fails here even though cherry is a perfectly valid brand colour somewhere else.
+const A = T.assets ?? {};
+const TR = A.treatments ?? {};
+const allowed = (name) => {
+  const t = TR[name];
+  if (!t) return null;
+  return new Set([
+    ...(t.tokens ?? []).map((k) => T.color[k]?.value.toUpperCase()).filter(Boolean),
+    ...(t.literals ?? []).map((h) => h.toUpperCase()),
+  ]);
+};
+const walk = (d) => !existsSync(d) ? [] : readdirSync(d).flatMap((f) => {
+  const full = join(d, f);
+  return statSync(full).isDirectory() ? walk(full) : [full];
+});
+for (const file of walk(join(root, "assets")).filter((f) => f.endsWith(".svg"))) {
+  const rel = file.replace(root + "/", "");
+  const base = rel.split("/").pop().replace(/\.svg$/, "");
+  const kind = rel.includes("/icon/") ? "icon" : "logo";
+  const suffix = Object.keys(TR).find((t) => base.endsWith(`-${t}`));
+  const treatment = suffix ?? A[kind]?.defaultTreatment;
+  const ok = allowed(treatment);
+  if (!ok) { errors.push(`${rel}: unknown treatment "${treatment}"`); continue; }
+  const found = new Set((readFileSync(file, "utf8").match(/#[0-9a-fA-F]{6}\b/g) ?? []).map((h) => h.toUpperCase()));
+  for (const h of found)
+    if (!ok.has(h))
+      errors.push(`${rel} is treatment "${treatment}" but uses ${h}, which that treatment does not allow`);
 }
 
 // duplicate values, per namespace
@@ -296,9 +327,10 @@ const js = `// GENERATED FROM tokens.json — DO NOT EDIT BY HAND.\n// Run \`npm
   + `export const scale = ${JSON.stringify(T.scale ?? {}, null, 2)};\n\n`
   + `export const radius = ${JSON.stringify(T.radius ?? {}, null, 2)};\n\n`
   + `export const shadow = ${JSON.stringify(T.shadow ?? {}, null, 2)};\n\n`
+  + `export const assets = ${JSON.stringify(T.assets ?? {}, null, 2)};\n\n`
   + `/** px at 96ppi -> docx half-points */\nexport const pxToHalfPt = (px) => Math.round((px * 72 / 96) * 2);\n\n`
   + `/** px at 96ppi -> twips */\nexport const pxToTwips = (px) => Math.round(px * 15);\n\n`
-  + `export default { color, brand, font, typeMap, page, motif, retired, documents, scale, radius, shadow, pxToHalfPt, pxToTwips };\n`;
+  + `export default { color, brand, font, typeMap, page, motif, retired, documents, scale, radius, shadow, assets, pxToHalfPt, pxToTwips };\n`;
 
 mkdirSync(join(root, "build"), { recursive: true });
 writeFileSync(join(root, "build", "tokens.css"), css);
