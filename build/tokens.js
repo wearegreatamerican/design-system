@@ -733,7 +733,7 @@ export const assets = {
     }
   },
   "logo": {
-    "revision": "1.0.0",
+    "revision": "1.1.0",
     "versionsSeparately": true,
     "defaultTreatment": "full",
     "treatments": [
@@ -752,7 +752,7 @@ export const assets = {
       "digitalPx": null,
       "printMm": null
     },
-    "pending": "Logo navy moving from #1F4E79 to #1F3A5F. Current files are the baseline; the recoloured set is a new revision."
+    "pending": "Wordmark, mark and print masters. The primary lockup landed in revision 1.1.0 with the navy recolour from #1F4E79 to #1F3A5F complete — #1F4E79 is retired and the SVG check rejects it, so nothing can regress to it silently. assets/logo/wordmark/ and assets/logo/mark/ are still empty, and print EPS/PDF come from the artwork producer as CMYK or spot, outside this repo's validation."
   },
   "icon": {
     "style": "stylized",

@@ -111,16 +111,21 @@ eye.
 ## Versioning
 
 **Logo revisions version separately from tokens.** The logo carries its own
-`assets.logo.revision`, currently `1.0.0`, independent of the package version. A
+`assets.logo.revision`, currently `1.1.0`, independent of the package version. A
 new logo is a new logo revision; it does not imply a token change, and a token
 release does not imply new artwork.
 
-### Pending: the navy change
+### Revision 1.1.0 — the navy change, complete
 
-Logo navy is moving from `#1F4E79` to `#1F3A5F`. The current files are the
-baseline and the recoloured set lands as **revision 1.1.0**.
+Logo navy moved from `#1F4E79` to `#1F3A5F`. The recoloured primary lockup is in
+`primary/`, in all five treatments.
 
-Until then this directory holds no artwork, deliberately. `#1F4E79` is a retired
-value — `tokens.json` lists it as replaced by `navy`, because `persimmon-lt`
-fails contrast on it — so the SVG check would reject the current artwork. That
-rejection would be correct, and working around it would defeat the check.
+`#1F4E79` is a retired value — `tokens.json` lists it as replaced by `navy`,
+because `persimmon-lt` fails contrast on it — so the SVG check rejects it
+outright. Artwork cannot regress to the old navy without failing the build.
+
+### Still outstanding
+
+`wordmark/` and `mark/` hold no artwork yet, and `print/` masters come from the
+artwork producer. None of that blocks the primary lockup, and none of it is a
+revision on its own until the files exist.

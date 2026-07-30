@@ -6,4 +6,6 @@ Wordmark only — the name set as type, no mark. SVG is canonical.
   ga-wordmark-white.svg   reversed, #FFFFFF, black-and-white documents only
   ga-wordmark-black.svg   single colour, #000000
 
-Awaiting the navy recolour — see ../primary/.gitkeep.
+No artwork yet. The navy recolour is complete for the primary lockup (logo
+revision 1.1.0); these files simply have not been drawn. Sources must be
+tight-cropped with text converted to outlines — see ../README.md.
