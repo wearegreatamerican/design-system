@@ -125,6 +125,24 @@ const walk = (d) => !existsSync(d) ? [] : readdirSync(d).flatMap((f) => {
   const full = join(d, f);
   return statSync(full).isDirectory() ? walk(full) : [full];
 });
+// Read colour values out of colour properties and attributes only. Scanning the raw file
+// for hex would both miss and over-match: #fff is a colour the 6-digit form never sees,
+// while url(#gradient) references and element ids look exactly like 3-digit hex.
+const NOT_A_COLOUR = new Set(["none", "transparent", "currentcolor", "inherit", "initial", "unset"]);
+const NAMED = { white: "#FFFFFF", black: "#000000" };
+const COLOUR_AT = /(?:fill|stroke|stop-color|flood-color|lighting-color)\s*[:=]\s*["']?\s*([^;"'\s>)]+)/gi;
+const coloursIn = (svg) => {
+  const found = new Set(), unreadable = new Set();
+  for (const [, raw] of svg.matchAll(COLOUR_AT)) {
+    const v = raw.trim().toLowerCase();
+    if (NOT_A_COLOUR.has(v) || v.startsWith("url(")) continue;
+    if (/^#[0-9a-f]{3}$/.test(v)) found.add(`#${v[1]}${v[1]}${v[2]}${v[2]}${v[3]}${v[3]}`.toUpperCase());
+    else if (/^#[0-9a-f]{6}$/.test(v)) found.add(v.toUpperCase());
+    else if (NAMED[v]) found.add(NAMED[v]);
+    else unreadable.add(raw.trim());
+  }
+  return { found, unreadable };
+};
 for (const file of walk(join(root, "assets")).filter((f) => f.endsWith(".svg"))) {
   const rel = file.replace(root + "/", "");
   const base = rel.split("/").pop().replace(/\.svg$/, "");
@@ -133,10 +151,30 @@ for (const file of walk(join(root, "assets")).filter((f) => f.endsWith(".svg")))
   const treatment = suffix ?? A[kind]?.defaultTreatment;
   const ok = allowed(treatment);
   if (!ok) { errors.push(`${rel}: unknown treatment "${treatment}"`); continue; }
-  const found = new Set((readFileSync(file, "utf8").match(/#[0-9a-fA-F]{6}\b/g) ?? []).map((h) => h.toUpperCase()));
+  const { found, unreadable } = coloursIn(readFileSync(file, "utf8"));
   for (const h of found)
     if (!ok.has(h))
       errors.push(`${rel} is treatment "${treatment}" but uses ${h}, which that treatment does not allow`);
+  for (const v of unreadable)
+    errors.push(`${rel} sets a colour to "${v}", which this check cannot resolve. `
+      + `Use a 3- or 6-digit hex so the treatment can be validated`);
+}
+
+// every PNG in the raster output directory must be one this repo declares. An undeclared
+// PNG was hand-placed, and `npm run raster` will not maintain it — it survives until
+// someone notices it is stale, or vanishes if the directory is ever cleaned.
+// Existence and declaration only, never content: sharp renders through librsvg, and
+// different librsvg versions emit different bytes for identical input, so byte-comparing
+// a committed PNG against a fresh render fails spuriously from one machine to the next.
+if (A.raster) {
+  const declared = new Set((A.raster.outputs ?? []).flatMap((o) =>
+    [...(o.widths ?? []), ...(o.squares ?? [])].map((n) => `${o.name}-${n}.png`)));
+  const dir = join(root, A.raster.outputDir);
+  for (const f of (existsSync(dir) ? readdirSync(dir) : []).filter((f) => f.toLowerCase().endsWith(".png")))
+    if (!declared.has(f))
+      errors.push(`${A.raster.outputDir}/${f} is not declared in assets.raster.outputs. `
+        + `It was placed by hand, so \`npm run raster\` does not maintain it and it will drift. `
+        + `Declare it there or delete it`);
 }
 
 // duplicate values, per namespace

@@ -23,9 +23,13 @@
     "build": "node scripts/build.mjs",
     "check": "node scripts/build.mjs --check",
     "check:tag": "node scripts/build.mjs --tag",
+    "raster": "node scripts/raster.mjs",
     "prepare": "node scripts/build.mjs"
   },
   "engines": {
     "node": ">=22"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.3"
   }
 }
