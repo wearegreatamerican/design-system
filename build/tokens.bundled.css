@@ -99,12 +99,13 @@
     var(--color-aqua) 0.00% 33.33%,
     var(--color-aqua-lt) 33.33% 66.67%,
     var(--color-aqua-pale) 66.67% 100.00%);
-  --waterline-band: linear-gradient(90deg,
-    var(--color-aqua) 0 calc(33.33% - calc(1px / 2)),
-    var(--ground) calc(33.33% - calc(1px / 2)) calc(33.33% + calc(1px / 2)),
-    var(--color-aqua-lt) calc(33.33% + calc(1px / 2)) calc(66.67% - calc(1px / 2)),
-    var(--ground) calc(66.67% - calc(1px / 2)) calc(66.67% + calc(1px / 2)),
-    var(--color-aqua-pale) calc(66.67% + calc(1px / 2)) 100%);
+  --waterline-band: repeating-linear-gradient(90deg,
+    var(--color-aqua)      0                                    var(--tile-divider),
+    var(--ground)          var(--tile-divider)                  calc(var(--tile-divider) + 1px),
+    var(--color-aqua-lt)   calc(var(--tile-divider) + 1px)      calc(var(--tile-divider) * 2 + 1px),
+    var(--ground)          calc(var(--tile-divider) * 2 + 1px)  calc(var(--tile-divider) * 2 + 2px),
+    var(--color-aqua-pale) calc(var(--tile-divider) * 2 + 2px)  calc(var(--tile-divider) * 3 + 2px),
+    var(--ground)          calc(var(--tile-divider) * 3 + 2px)  calc(var(--tile-divider) * 3 + 3px));
 }
 
 /* Role aliases. Never define a value here, only point at a token. */

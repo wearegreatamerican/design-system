@@ -258,7 +258,7 @@ export const motif = {
   ],
   "note": "Tiles run dark to light, left to right, never reversed, at all three scales. The 14px glyph never stands alone.",
   "gradient": {
-    "_note": "Built from colour tokens so no consumer retypes an aqua value. The band separator uses var(--ground) so it follows the surface: sand on web, paper on a document page root. VERIFY the band against the site's current --waterline-band before adoption; the separator geometry is reconstructed.",
+    "_note": "Built from colour tokens so no consumer retypes an aqua value. The band separator uses var(--ground) so it follows the surface: sand on web, paper on a document page root. Band geometry verified against the site 2026-07-30: it is a repeating tile at the fixed tile.divider scale, period 3 tiles + 3 gaps, with a trailing separator after the last tile. The cap is different on purpose — it stretches to the card width, so it stays on percentage thirds.",
     "cap": {
       "ramp": [
         "aqua",

@@ -12,7 +12,7 @@ never by value. If a hex appears in two places, one of them is wrong.
 ## Install
 
 ```bash
-npm i github:YOURORG/great-american-design-system#v1.0.0
+npm i github:wearegreatamerican/design-system#v1.1.1
 ```
 
 Pin to a tag. Tracking `main` means a token change lands in production without a

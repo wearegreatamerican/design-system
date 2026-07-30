@@ -133,10 +133,10 @@ css += `\n  /* ---------- Type ---------- */\n`;
 for (const [n, v] of Object.entries(T.font.stack))
   css += `  ${pad(`--font-${n === "sans" ? "sans" : n}:`, 22)}${v};\n`;
 css += `\n  /* ---------- Waterline tile motif ---------- */\n`;
+const tileKey = { eyebrow: "tile-eyebrow", cardCap: "tile-card-cap", divider: "tile-divider" };
 for (const [n, v] of Object.entries(T.motif.tile)) {
   if (n === "unit") continue;
-  const key = { eyebrow: "tile-eyebrow", cardCap: "tile-card-cap", divider: "tile-divider" }[n];
-  css += `  ${pad(`--${key}:`, 22)}${v}px;\n`;
+  css += `  ${pad(`--${tileKey[n]}:`, 22)}${v}px;\n`;
 }
 // scale, radius, shadow, motion — every prefix is a real Tailwind v4 namespace
 const NS = [
@@ -162,21 +162,35 @@ for (const [label, obj, prefix] of NS) {
 const g = T.motif?.gradient;
 if (g) {
   css += `\n  /* ---------- Waterline gradients ---------- */\n`;
+  // cap is a 5px product-card cap that stretches to the card's width, so thirds are correct
   const cap = g.cap.ramp.map((s, i) =>
     `    var(--color-${s}) ${(i * 100 / 3).toFixed(2)}% ${((i + 1) * 100 / 3).toFixed(2)}%`).join(",\n");
   css += `  --waterline-cap: linear-gradient(90deg,\n${cap});\n`;
-  const half = `calc(${g.band.gap} / 2)`;
+
+  // band is a repeating tile at a fixed scale, so stops step by tile width, never by percentage.
+  // Every offset is n tile widths plus m gaps, kept symbolic so the period follows --tile-divider
+  // and the tile scale stays defined in exactly one place.
+  const D = `var(--${tileKey.divider})`;
+  const [, gapNum, gapUnit] = /^([\d.]+)(\D+)$/.exec(g.band.gap);
+  const at = (n, m) => {
+    const tiles = n === 0 ? "" : n === 1 ? D : `${D} * ${n}`;
+    const gaps = m === 0 ? "" : `${+(gapNum * m).toFixed(4)}${gapUnit}`;
+    if (!tiles) return gaps || "0";
+    if (!gaps) return tiles;
+    return `calc(${tiles} + ${gaps})`;
+  };
+  // tile i spans i*(D+G) -> i*(D+G)+D, then the separator after it runs to (i+1)*(D+G).
+  // The trailing separator after the last tile is required: without it the last tile butts
+  // against the first tile of the next repetition and the band reads as a 2-tile rhythm.
   const stops = [];
   g.band.ramp.forEach((s, i) => {
-    const from = i === 0 ? "0" : `calc(${(i * 100 / 3).toFixed(2)}% + ${half})`;
-    const to = i === g.band.ramp.length - 1 ? "100%" : `calc(${((i + 1) * 100 / 3).toFixed(2)}% - ${half})`;
-    stops.push(`    var(--color-${s}) ${from} ${to}`);
-    if (i < g.band.ramp.length - 1) {
-      const e = ((i + 1) * 100 / 3).toFixed(2);
-      stops.push(`    var(--${g.band.gapToken}) calc(${e}% - ${half}) calc(${e}% + ${half})`);
-    }
+    stops.push([`var(--color-${s})`, at(i, i), at(i + 1, i)]);
+    stops.push([`var(--${g.band.gapToken})`, at(i + 1, i), at(i + 1, i + 1)]);
   });
-  css += `  --waterline-band: linear-gradient(90deg,\n${stops.join(",\n")});\n`;
+  const wCol = Math.max(...stops.map((r) => r[0].length)) + 1;
+  const wFrom = Math.max(...stops.map((r) => r[1].length)) + 2;
+  const band = stops.map(([c, from, to]) => `    ${pad(c, wCol)}${pad(from, wFrom)}${to}`).join(",\n");
+  css += `  --waterline-band: repeating-linear-gradient(90deg,\n${band});\n`;
 }
 
 css += `}\n\n/* Role aliases. Never define a value here, only point at a token. */\n:root {\n`;
