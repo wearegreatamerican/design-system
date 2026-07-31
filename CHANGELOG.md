@@ -11,6 +11,32 @@ them. Read those before upgrading; the rest can be skimmed.
 
 Published tags are immutable. A tag is never moved once pushed.
 
+## [1.4.0] — 2026-07-31
+
+### Added
+
+- **"Where this comes from"** — an unnumbered preface to `DESIGN-SYSTEM.md`,
+  before §1. Three sources (the postwar American backyard, the Sarasota School of
+  Architecture, roadside Florida), why the two halves need each other, the line
+  between borrowing an era's standards and wearing its props, how the reasoning
+  shows up in specific decisions already in the system, and how it connects to
+  the four values. **Marked `DRAFT` pending Aaron's voice pass.**
+- **`CD-web-system.md`.** The short form of the reasoning, to prepend to the
+  Claude Design system block. It carries reasoning only and deliberately restates
+  no rules. The same block was added to `CD-document-types.md`.
+- A line under the README intro pointing at the preface as the place to start.
+
+### Changed
+
+- **§9 Design direction cut to operational rules.** It opened by naming the two
+  sources and asserting Sarasota School is modernist rather than traditional;
+  both are now the preface's job and were removed rather than duplicated. §9
+  keeps horizontal emphasis, flat planes, deep overhangs, restraint, structure
+  over ornament, warm directional light, the pastiche and SaaS constraints, and
+  the photography direction, and opens with a pointer to the preface.
+- §12 now records that the boilerplate and descriptor are written **against** the
+  preface rather than independently of it.
+
 ## [1.3.0] — 2026-07-31
 
 ### Added
@@ -137,6 +163,7 @@ Published tags are immutable. A tag is never moved once pushed.
   longer holding, and transactional documents declaring motifs or a non-`paper`
   ground.
 
+[1.4.0]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.4.0
 [1.3.0]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.3.0
 [1.2.0]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.2.0
 [1.1.0]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.1.0

@@ -19,6 +19,78 @@ web-only, or points documents at another repo, is stale and does not govern.
 
 ---
 
+## Where this comes from
+
+> **`DRAFT` — pending Aaron's voice pass.**
+
+Three sources, and the company sits where they meet.
+
+**The postwar American backyard.** In the 1950s the backyard became where the
+American dream was actually lived. Not the front porch, not the parlour. The
+back. A pool, a patio, the family outside on a Saturday. Great American builds
+the things that go in that space, which makes the backyard the emotional centre
+of the brand rather than a setting for it.
+
+It was also a period that believed a family's position could change inside a
+single generation, through work and through making things well. That belief is
+the reason the era still resonates, and it is the part worth carrying forward.
+
+**The Sarasota School of Architecture.** Postwar Florida modernism — Rudolph,
+Twitchell, Lundy. Built for the climate it stood in rather than imported from
+somewhere colder. Deep overhangs for shade, cross ventilation, flat planes,
+horizontal emphasis, structure doing the work instead of ornament, indoor and
+outdoor treated as one space. The honest local vernacular for a Florida
+manufacturer, not a borrowed style. Great American was founded in Florida and is
+still headquartered here.
+
+**Roadside Florida.** Motels, marquees, the drive down. Optimism rendered in
+signage, by people who believed the future was arriving.
+
+**Why the two halves need each other.** Americana supplies warmth, confidence
+and optimism. Sarasota School supplies restraint, discipline and structure.
+Alone, Americana becomes kitsch and Sarasota becomes cold. The blend is why this
+system runs a warm neutral ramp and hard directional light rather than soft
+nostalgia or clinical modernism.
+
+**Forward, not backward.** This is not a period costume and not a re-enactment.
+What is borrowed is the optimism and the standard of making, applied to work
+happening now. The Sarasota half carries most of that weight, because it was
+forward-looking modernism rather than traditionalism — those architects were
+building what came next, not preserving what came before.
+
+Practically, that is the line between a brand and a theme restaurant. Reach for
+the era's confidence and its craft; never its props. The moment a decision is
+made because it looks fifties rather than because it is right, the system has
+failed.
+
+**How it shows up.** The reasoning is visible in the decisions:
+
+- The neutral ramp is named for coastal Florida construction materials — paper,
+  shell, sand, mortar, tabby, aggregate — rather than abstract greys, because
+  the materials are the reference.
+- Photography runs hard directional light and deep shadow because that is Florida
+  sun, not studio softness.
+- Horizontal emphasis recurs — the overhang, the horizon, the waterline —
+  because it is the Sarasota School's defining move.
+- Quiet mode on product and spec pages is structure over ornament, applied to
+  documents.
+- Archivo carries display rather than a script or a slab: confident without
+  costume.
+- Satisfy is rationed to display size in a small number of places. It is the one
+  nostalgic gesture in the system, and it works because it is rare.
+
+**How it connects to the values.** The four values are not separate from the
+visual system. They are the same beliefs, stated as operating principles:
+
+- *Simple Solutions to Big Ideas* is the Sarasota School's structural clarity.
+- *Innovation with Discipline, Spirit with Purpose* is the two halves exactly:
+  modernist discipline, Americana spirit.
+- *Craftsmanship Without Compromise* is the postwar standard of making.
+- *Empowering, Human-Centered Growth* is the backyard, and the belief that
+  people's position changes through work.
+
+---
+
 ## 1. Brand colors
 
 Two colors. Both come from the logo. Everything in section 3 either derives
@@ -685,10 +757,13 @@ boilerplate, terminology, product naming, and the closing line.
 
 ## 9. Design direction
 
-1950s Americana blended with Sarasota School of Architecture modernism.
+The reasoning is in [Where this comes from](#where-this-comes-from). Read that
+first. What follows is the operational form of it, and applying these rules
+without the reasoning is exactly how the pastiche the last line forbids gets
+built.
 
-Sarasota School is modernist, not traditional. Horizontal emphasis, flat
-planes, deep overhangs, restraint, structure over ornament.
+Horizontal emphasis, flat planes, deep overhangs, restraint, structure over
+ornament.
 
 Warm directional light and hard shadow, not soft diffuse lighting.
 
@@ -811,6 +886,12 @@ they did not deploy anything.
 What the company says about itself. §8 governs how copy is written; this governs
 what it says. Every consumer needs this, and each one will otherwise invent its
 own version.
+
+**The boilerplate and the descriptor are written against
+[Where this comes from](#where-this-comes-from), not independently of it.** They
+are that preface said in the company's own voice and at the company's own length.
+Written without it they will describe a manufacturer of water features, which is
+accurate and is not the point.
 
 Sections marked **`TO AUTHOR`** are not yet written. They are deliberately empty
 rather than filled with a plausible draft — approximate brand copy gets copied

@@ -4,6 +4,23 @@ Append to the Remix chat after the main system block.
 
 ---
 
+WHY THIS LOOKS THE WAY IT DOES
+
+Postwar American backyard, Sarasota School modernism, roadside Florida
+optimism. Founded in Florida, still headquartered here.
+
+Americana supplies warmth and confidence; Sarasota School supplies restraint
+and structure. Americana alone is kitsch, Sarasota alone is cold.
+
+Borrow the era's optimism and its standard of making, applied to work
+happening now. Never its props. If a decision is made because it looks
+fifties rather than because it is right, it is wrong.
+
+Horizontal emphasis, flat planes, hard directional light, structure over
+ornament, materials named for what they are.
+
+---
+
 DOCUMENT TYPES
 
 When asked for a named document, use the entry below. These say what each

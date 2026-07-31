@@ -3,6 +3,11 @@
 Brand tokens, the written spec, and generated outputs for every surface: the
 marketing site, the document pipeline, Claude Design, Figma, and InDesign.
 
+**Start with [Where this comes from](DESIGN-SYSTEM.md#where-this-comes-from).**
+It is the preface to the spec and it explains what the brand is doing. Applying
+the rules without it produces pastiche — the one outcome the rules name and
+cannot prevent on their own.
+
 **`tokens.json` is the only place a value is typed.** Everything in `build/` is
 generated. `DESIGN-SYSTEM.md` carries prose rules and references tokens by name,
 never by value. If a hex appears in two places, one of them is wrong.
