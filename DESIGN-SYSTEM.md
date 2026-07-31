@@ -671,13 +671,8 @@ Avoid "not X, but Y" and "X, not Y" unless the contrast is load-bearing.
 
 Plainspoken trade-professional tone. No guru-speak, no corporate abstraction.
 
-Say "trade partners" or "verified trade network." Never "dealers."
-
-Standard closing line: Built to be trusted.
-
-Product water behavior is precise. Sheer projects a smooth curtain out and
-down. Rain drops in clean vertical streams. Wave's lip angles upward to launch
-water into a cresting arc.
+This section covers copy *mechanics*. What the company says about itself is §12:
+boilerplate, terminology, product naming, and the closing line.
 
 ---
 
@@ -782,3 +777,118 @@ There is no path where a consumer's copy of the logo changes without a version
 bump, because artwork ships in the package and the package is pinned. That is
 intended, not a limitation — it means nobody's site changes on a morning when
 they did not deploy anything.
+
+---
+
+## 12. Voice and messaging
+
+What the company says about itself. §8 governs how copy is written; this governs
+what it says. Every consumer needs this, and each one will otherwise invent its
+own version.
+
+Sections marked **`TO AUTHOR`** are not yet written. They are deliberately empty
+rather than filled with a plausible draft — approximate brand copy gets copied
+into a live surface and then has to be un-shipped.
+
+### Boilerplate
+
+**`TO AUTHOR`** — one short paragraph and one long paragraph.
+
+The short form is for a footer, a partner one-pager, or the end of a release. The
+long form is for an about page or a press kit. Both are fixed text once written:
+they are quoted, not paraphrased, and a consumer that rewrites them locally has
+forked the company description.
+
+### One-line descriptor
+
+**`TO AUTHOR`** — one sentence.
+
+Used in meta descriptions, directory listings and partner materials. It has to
+survive being read alone, out of context, next to a competitor's.
+
+### Product naming
+
+**Line then product.** "Aqua Sheer", never "Sheer Descent by Great American".
+
+The line name comes first because the line is what a trade partner is buying
+into; the product is which one within it. Reversing it reads as a consumer brand
+and breaks alphabetical grouping in every catalogue and price sheet that sorts by
+name.
+
+**Part numbers are uppercase with no spaces.** They are identifiers, not prose,
+and they are matched literally by ordering systems.
+
+### Line structure
+
+Three lines, by water behaviour:
+
+| Line | Covers | What it is for |
+|---|---|---|
+| **Aqua** | Waterfalls | **`TO AUTHOR`** — one sentence |
+| **Versa** | Spillways and spouts | **`TO AUTHOR`** — one sentence |
+| **Vista** | Edges | **`TO AUTHOR`** — one sentence |
+
+The lines divide by what the water does, not by price or size. That is the
+distinction to preserve if the range grows.
+
+### Terminology
+
+Binding. These are not preferences.
+
+| Say | Never |
+|---|---|
+| trade partners, verified trade network | dealers |
+
+**Product water behaviour is precise language, not description.** These sentences
+describe mechanically different products and are not interchangeable:
+
+- **Sheer** projects a smooth curtain out and down
+- **Rain** drops in clean vertical streams
+- **Wave's** lip angles upward into a cresting arc
+
+Using one product's verb for another misdescribes the hardware. If copy needs a
+generic verb, name no product.
+
+### Closing line
+
+**Built to be trusted.**
+
+The standard closing line. Set as written — no variation, no substitution, no
+extending it into a longer sentence.
+
+---
+
+## 13. Iconography
+
+Beyond the flag, icons need a system or they drift as soon as there is more than
+a handful. Values live in `tokens.json` under the top-level `icon` key.
+
+> **`PROVISIONAL`.** Stroke and corner radius below are a starting point, not a
+> measurement. They must be confirmed against the flag icon once real UI icon
+> artwork exists, and may move. Do not treat them as measured, and do not cite
+> them as settled to anyone drawing a set.
+
+| Property | Value | Notes |
+|---|---|---|
+| Grid | **24px** | Drawn on a 24 box |
+| Safe margin | **2px** | Artwork stays inside 20×20; nothing touches the edge |
+| Stroke | **1.75px** at 24 | `PROVISIONAL`. Scales proportionally with the grid |
+| Caps and joins | **round** | Both |
+| Corner radius | **2px** at 24 | `PROVISIONAL` |
+
+**Never mix stroke weights within a set.** One weight per set is what makes a set
+read as a set; a single heavier icon reads as an error before it reads as
+emphasis.
+
+**Icons are monochrome — a single colour token each.** They take a token, not a
+value, and they inherit from context wherever possible.
+
+**The flag is the only multi-token mark, and it is not a UI icon.** It is an
+identity asset with its own treatments and its own validation, and it is
+two-tone by necessity — see `assets/icon/README.md`. Nothing in this section
+applies to it, and it is not the reference for drawing a UI set.
+
+**Optical sizing: below 20px, drop interior detail rather than thinning the
+stroke.** A thinned stroke disappears at small sizes and breaks the set's weight;
+a simplified icon still reads. This is the same reasoning that removes the stars
+from the flag mark in its single-colour treatments.

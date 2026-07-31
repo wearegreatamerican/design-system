@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Great American Design System — specimen 1.3.0</title>
+<style>
+  :root{--ink:#14202E;--slate:#3A4654;--sand:#F7F4EE;--rule:#D6D0C2;}
+  *{box-sizing:border-box}
+  body{margin:0;padding:48px 32px 96px;background:var(--sand);color:var(--slate);
+       font:16px/1.5 ui-sans-serif,system-ui,sans-serif;max-width:1100px;margin-inline:auto}
+  h1{font-size:38px;line-height:1.1;color:var(--ink);margin:0 0 4px}
+  h2{font-size:24px;color:var(--ink);margin:56px 0 4px;padding-bottom:8px;border-bottom:2px solid var(--ink)}
+  h3{font-size:14px;letter-spacing:.13em;text-transform:uppercase;color:var(--slate);margin:32px 0 12px}
+  .sub{color:var(--slate);margin:0 0 8px}
+  .gen{font-size:12px;color:#8B8378;margin:0 0 32px}
+  .swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+  .sw{display:flex;gap:12px;background:#FFFDF9;border:1px solid var(--rule);border-radius:10px;padding:10px}
+  .chip{width:56px;height:56px;border-radius:8px;flex:0 0 auto;border:1px solid rgba(0,0,0,.12)}
+  .chip.lg{width:88px;height:88px}
+  .meta b{color:var(--ink)} .meta code{font:12px ui-monospace,monospace;margin-left:6px}
+  .meta .l{display:block;font-size:12px;color:#8B8378}
+  .meta p{margin:4px 0 0;font-size:12px;line-height:1.35}
+  table{width:100%;border-collapse:collapse;font-size:14px;background:#FFFDF9;
+        border:1px solid var(--rule);border-radius:10px;overflow:hidden}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--rule)}
+  th{font-size:12px;letter-spacing:.08em;text-transform:uppercase;background:#F7F4EE}
+  tr:last-child td{border-bottom:0}
+  .num{font-variant-numeric:tabular-nums;text-align:right}
+  .pass td:nth-child(4){color:#3F7A46;font-weight:700}
+  .fail{background:#FBEAE6} .fail td:nth-child(4){color:#A84630;font-weight:700}
+  .dot{display:inline-flex;align-items:center;justify-content:center;width:30px;height:22px;
+       border-radius:5px;font-size:12px;font-weight:700;margin-right:8px;vertical-align:middle}
+  .typerow{display:grid;grid-template-columns:230px 1fr;gap:20px;align-items:baseline;
+           padding:12px 0;border-bottom:1px solid var(--rule)}
+  .tlabel{font-size:12px;color:var(--ink);font-weight:700}
+  .tlabel span{display:block;font-weight:400;color:#8B8378}
+  .tsample{color:var(--ink);overflow:hidden}
+  .flag{font-size:12px;color:#A84630;margin:4px 0 0}
+  .motif{display:grid;grid-template-columns:230px 1fr;gap:20px;align-items:center;padding:12px 0;
+         border-bottom:1px solid var(--rule)}
+  .docs{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:20px}
+  .doc{margin:0} .doc .page{position:relative;border:1px solid var(--rule);box-shadow:0 2px 4px rgba(92,74,54,.07)}
+  .doc .content{position:absolute;border:1px dashed rgba(0,0,0,.16)}
+  .doc .band{position:absolute;left:0;right:0;bottom:0;line-height:0}
+  .doc figcaption{margin-top:6px;font-size:12px}
+  .doc figcaption b{display:block;color:var(--ink)}
+  .doc figcaption span{color:#8B8378}
+  .brand{display:flex;gap:16px;background:#FFFDF9;border:1px solid var(--rule);border-radius:10px;
+         padding:14px;margin-bottom:12px}
+  .brand p{margin:3px 0;font-size:12px} .brand .note{color:#8B8378;font-style:italic}
+  .banner{background:#FBEAE6;border:1px solid #A84630;border-radius:8px;padding:10px 14px;margin:16px 0;font-size:14px}
+  .fontnote{font-size:12px;color:#8B8378;margin:0 0 12px}
+</style>
+</head><body>
+
+<h1>Great American Design System</h1>
+<p class="sub">Specimen for version <b>1.3.0</b> — every value on this page is
+generated from <code>tokens.json</code>. Nothing here is typed by hand.</p>
+<p class="gen">Regenerate with <code>npm run specimen</code>. If this page and the spec
+disagree, this page is right and something upstream drifted.</p>
+
+
+<h2>Colour</h2>
+<h3>Structure</h3><div class="swatches">
+      <div class="sw">
+        <div class="chip" style="background:#1F3A5F"></div>
+        <div class="meta">
+          <b>navy</b>
+          <code>#1F3A5F</code>
+          <span class="l">L* 24.1</span>
+          <p>Primary structure: headings, nav, topbar</p>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="chip" style="background:#2B4A73"></div>
+        <div class="meta">
+          <b>navy-lt</b>
+          <code>#2B4A73</code>
+          <span class="l">L* 31</span>
+          <p>Secondary structure, quiet hairline on dark panels</p>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="chip" style="background:#A9B3C0"></div>
+        <div class="meta">
+          <b>navy-pale</b>
+          <code>#A9B3C0</code>
+          <span class="l">L* 72.5</span>
+          <p>Quiet text on dark grounds, dividers that must read on navy</p>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="chip" style="background:#14202E"></div>
+        <div class="meta">
+          <b>ink</b>
+          <code>#14202E</code>
+          <span class="l">L* 11.8</span>
+          <p>Dark ground. Footer, scrims, caption bars. Not a text color</p>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="chip" style="background:#3A4654"></div>
+        <div class="meta">
+          <b>slate</b>
+          <code>#3A4654</code>
+          <span class="l">L* 28.9</span>
+          <p>Body copy</p>
+        </div>
+      </div></div><h3>Neutral ramp, all warm</h3><div class="swatches">
+      <div class="sw">
+        <div class="chip" style="background:#FFFFFF"></div>
+        <div class="meta">
+          <b>paper</b>
+          <code>#FFFFFF</code>
+          <span class="l">L* 100</span>
+          <p>Document and print page ground</p>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="chip" style="background:#FFFDF9"></div>
+        <div class="meta">
+          <b>shell</b>
+          <code>#FFFDF9</code>
+          <span class="l">L* 99.4</span>
+          <p>Raised surfaces, cards</p>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="chip" style="background:#F7F4EE"></div>
+        <div class="meta">
+          <b>sand</b>
+          <code>#F7F4EE</code>
+          <span class="l">L* 96.3</span>
+          <p>Web page ground</p>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="chip" style="background:#E6E0D6"></div>
+        <div class="meta">
+          <b>mortar</b>
+          <code>#E6E0D6</code>
+          <span class="l">L* 89.4</span>
+          <p>Panel and column fill, text on navy</p>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="chip" style="background:#D6D0C2"></div>
+        <div class="meta">
+          <b>tabby</b>
+          <code>#D6D0C2</code>
+          <span class="l">L* 83.6</span>
+          <p>Primary text on dark grounds, hairline rung on light grounds</p>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="chip" style="background:#8B8378"></div>
+        <div class="meta">
+          <b>aggregate</b>
+          <code>#8B8378</code>
+          <span class="l">L* 55.2</span>
+          <p>Group divider, section break, table outer edge, coquina texture</p>
+        </div>
+      </div></div><h3>Accent ramp</h3><div class="swatches">
+      <div class="sw">
+        <div class="chip" style="background:#E89A7C"></div>
+        <div class="meta">
+          <b>persimmon-lt</b>
+          <code>#E89A7C</code>
+          <span class="l">L* 70.7</span>
+          <p>Small text on navy, accent rules on navy</p>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="chip" style="background:#C4573F"></div>
+        <div class="meta">
+          <b>persimmon</b>
+          <code>#C4573F</code>
+          <span class="l">L* 50.6</span>
+          <p>Mid accent, large text on light grounds</p>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="chip" style="background:#A84630"></div>
+        <div class="meta">
+          <b>cherry</b>
+          <code>#A84630</code>
+          <span class="l">L* 42.6</span>
+          <p>Eyebrows, rules, button grounds, logo</p>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="chip" style="background:#933C29"></div>
+        <div class="meta">
+          <b>cherry-dk</b>
+          <code>#933C29</code>
+          <span class="l">L* 37.1</span>
+          <p>Button hover only</p>
+        </div>
+      </div></div><h3>Water accent</h3><div class="swatches">
+      <div class="sw">
+        <div class="chip" style="background:#4A9B9B"></div>
+        <div class="meta">
+          <b>aqua</b>
+          <code>#4A9B9B</code>
+          <span class="l">L* 59.2</span>
+          <p>Light-ground ramp step 1, chip fills</p>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="chip" style="background:#6BB5B5"></div>
+        <div class="meta">
+          <b>aqua-lt</b>
+          <code>#6BB5B5</code>
+          <span class="l">L* 69.1</span>
+          <p>Light step 2, dark step 1. The only aqua that carries text</p>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="chip" style="background:#9BCECC"></div>
+        <div class="meta">
+          <b>aqua-mid</b>
+          <code>#9BCECC</code>
+          <span class="l">L* 78.9</span>
+          <p>Dark ramp step 2. Decorative only</p>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="chip" style="background:#CFE4E2"></div>
+        <div class="meta">
+          <b>aqua-pale</b>
+          <code>#CFE4E2</code>
+          <span class="l">L* 89.2</span>
+          <p>Both ramps step 3. Decorative only</p>
+        </div>
+      </div></div>
+
+<h2>Contrast</h2>
+<p class="sub">Every declared minimum in <code>rules.minContrast</code>, measured at generation
+time with the same function the validator uses.</p>
+<table>
+  <thead><tr><th>Pair</th><th class="num">Measured</th><th class="num">Min</th><th>Result</th><th>Why it is declared</th></tr></thead>
+  <tbody>
+      <tr class="pass">
+        <td><span class="dot" style="background:#1F3A5F;color:#E89A7C">Aa</span> persimmon-lt on navy</td>
+        <td class="num">5.11</td>
+        <td class="num">4.5</td>
+        <td>PASS</td>
+        <td>small text on navy</td>
+      </tr>
+      <tr class="pass">
+        <td><span class="dot" style="background:#1F3A5F;color:#6BB5B5">Aa</span> aqua-lt on navy</td>
+        <td class="num">4.87</td>
+        <td class="num">4.5</td>
+        <td>PASS</td>
+        <td>topbar text</td>
+      </tr>
+      <tr class="pass">
+        <td><span class="dot" style="background:#14202E;color:#6BB5B5">Aa</span> aqua-lt on ink</td>
+        <td class="num">6.98</td>
+        <td class="num">4.5</td>
+        <td>PASS</td>
+        <td>footer column headings</td>
+      </tr>
+      <tr class="pass">
+        <td><span class="dot" style="background:#14202E;color:#D6D0C2">Aa</span> tabby on ink</td>
+        <td class="num">10.71</td>
+        <td class="num">4.5</td>
+        <td>PASS</td>
+        <td>footer body text</td>
+      </tr>
+      <tr class="pass">
+        <td><span class="dot" style="background:#14202E;color:#A9B3C0">Aa</span> navy-pale on ink</td>
+        <td class="num">7.76</td>
+        <td class="num">4.5</td>
+        <td>PASS</td>
+        <td>footer bottom bar</td>
+      </tr>
+      <tr class="pass">
+        <td><span class="dot" style="background:#1F3A5F;color:#E6E0D6">Aa</span> mortar on navy</td>
+        <td class="num">8.75</td>
+        <td class="num">4.5</td>
+        <td>PASS</td>
+        <td>topbar text</td>
+      </tr>
+      <tr class="pass">
+        <td><span class="dot" style="background:#A84630;color:#FFFFFF">Aa</span> paper on cherry</td>
+        <td class="num">5.86</td>
+        <td class="num">4.5</td>
+        <td>PASS</td>
+        <td>white on button ground</td>
+      </tr>
+      <tr class="pass">
+        <td><span class="dot" style="background:#933C29;color:#FFFFFF">Aa</span> paper on cherry-dk</td>
+        <td class="num">7.19</td>
+        <td class="num">4.5</td>
+        <td>PASS</td>
+        <td>white on button hover</td>
+      </tr>
+      <tr class="pass">
+        <td><span class="dot" style="background:#FFFFFF;color:#A84630">Aa</span> cherry on paper</td>
+        <td class="num">5.86</td>
+        <td class="num">4.5</td>
+        <td>PASS</td>
+        <td>eyebrows on document ground</td>
+      </tr>
+      <tr class="pass">
+        <td><span class="dot" style="background:#F7F4EE;color:#A84630">Aa</span> cherry on sand</td>
+        <td class="num">5.34</td>
+        <td class="num">4.5</td>
+        <td>PASS</td>
+        <td>eyebrows on web ground</td>
+      </tr>
+      <tr class="pass">
+        <td><span class="dot" style="background:#F7F4EE;color:#3A4654">Aa</span> slate on sand</td>
+        <td class="num">8.76</td>
+        <td class="num">4.5</td>
+        <td>PASS</td>
+        <td>body copy</td>
+      </tr></tbody>
+</table>
+
+<h2>Type</h2>
+<p class="fontnote">Rendered at true size in the real families. Faces resolve only where the
+brand fonts are installed; elsewhere the metrics are right and the shapes are the fallback.</p>
+
+      <div class="typerow">
+        <div class="tlabel">Cover masthead<span>Archivo 800 · 35.9px · uppercase</span></div>
+        <div class="tsample" style="font-family:&quot;Archivo Variable&quot;, &quot;Archivo&quot;, ui-sans-serif, system-ui, sans-serif;font-weight:800;font-size:35.9px;line-height:38px;letter-spacing:1.14px;text-transform:uppercase">Great American 1954</div>
+      </div>
+      <div class="typerow">
+        <div class="tlabel">Section heading<span>Archivo 600 · 22px · uppercase</span></div>
+        <div class="tsample" style="font-family:&quot;Archivo Variable&quot;, &quot;Archivo&quot;, ui-sans-serif, system-ui, sans-serif;font-weight:600;font-size:22px;text-transform:uppercase">Great American 1954</div>
+      </div>
+      <div class="typerow">
+        <div class="tlabel">Continuation masthead<span>Archivo 600 · 20px · uppercase</span></div>
+        <div class="tsample" style="font-family:&quot;Archivo Variable&quot;, &quot;Archivo&quot;, ui-sans-serif, system-ui, sans-serif;font-weight:600;font-size:20px;text-transform:uppercase">Great American 1954</div>
+      </div>
+      <div class="typerow">
+        <div class="tlabel">Segment diagram<span>Oswald 700 · 34px</span></div>
+        <div class="tsample" style="font-family:&quot;Oswald Variable&quot;, &quot;Oswald&quot;, ui-sans-serif, system-ui, sans-serif;font-weight:700;font-size:34px">Great American 1954</div>
+      </div>
+      <div class="typerow">
+        <div class="tlabel">Worked-example part number<span>Oswald 700 · 16px</span></div>
+        <div class="tsample" style="font-family:&quot;Oswald Variable&quot;, &quot;Oswald&quot;, ui-sans-serif, system-ui, sans-serif;font-weight:700;font-size:16px">Great American 1954</div>
+      </div>
+      <div class="typerow">
+        <div class="tlabel">Body-size group label<span>Oswald 700 · 14px</span></div>
+        <div class="tsample" style="font-family:&quot;Oswald Variable&quot;, &quot;Oswald&quot;, ui-sans-serif, system-ui, sans-serif;font-weight:700;font-size:14px">Great American 1954</div>
+      </div>
+      <div class="typerow">
+        <div class="tlabel">Subsection label<span>Oswald 500 · 13px · uppercase</span></div>
+        <div class="tsample" style="font-family:&quot;Oswald Variable&quot;, &quot;Oswald&quot;, ui-sans-serif, system-ui, sans-serif;font-weight:500;font-size:13px;text-transform:uppercase">Great American 1954</div>
+      </div>
+      <div class="typerow">
+        <div class="tlabel">Segment-key label<span>Oswald 700 · 12px · uppercase</span></div>
+        <div class="tsample" style="font-family:&quot;Oswald Variable&quot;, &quot;Oswald&quot;, ui-sans-serif, system-ui, sans-serif;font-weight:700;font-size:12px;text-transform:uppercase">Great American 1954</div>
+      </div>
+      <div class="typerow">
+        <div class="tlabel">Part number, table body<span>Oswald 700 · 10.5px · as-written</span></div>
+        <div class="tsample" style="font-family:&quot;Oswald Variable&quot;, &quot;Oswald&quot;, ui-sans-serif, system-ui, sans-serif;font-weight:700;font-size:10.5px">Great American 1954</div>
+      </div>
+      <div class="typerow">
+        <div class="tlabel">Table column head<span>Oswald 500 · 10px · uppercase</span></div>
+        <div class="tsample" style="font-family:&quot;Oswald Variable&quot;, &quot;Oswald&quot;, ui-sans-serif, system-ui, sans-serif;font-weight:500;font-size:10px;letter-spacing:wide;text-transform:uppercase">Great American 1954</div>
+      </div>
+      <div class="typerow">
+        <div class="tlabel">Running header, footer<span>Oswald 500 · 9px · uppercase</span></div>
+        <div class="tsample" style="font-family:&quot;Oswald Variable&quot;, &quot;Oswald&quot;, ui-sans-serif, system-ui, sans-serif;font-weight:500;font-size:9px;text-transform:uppercase">Great American 1954</div>
+      </div>
+      <div class="typerow">
+        <div class="tlabel">Secondary copy, key options<span>Nunito Sans 400 · 12px · sentence</span></div>
+        <div class="tsample" style="font-family:&quot;Nunito Sans Variable&quot;, &quot;Nunito Sans&quot;, ui-sans-serif, system-ui, sans-serif;font-weight:400;font-size:12px">Great American 1954</div>
+      </div>
+      <div class="typerow">
+        <div class="tlabel">Price<span>Nunito Sans 700 · 11px</span></div>
+        <div class="tsample" style="font-family:&quot;Nunito Sans Variable&quot;, &quot;Nunito Sans&quot;, ui-sans-serif, system-ui, sans-serif;font-weight:700;font-size:11px;font-variant-numeric:tabular-nums">Great American 1954</div>
+      </div>
+      <div class="typerow">
+        <div class="tlabel">Body, table cell<span>Nunito Sans 400 · 11px · sentence</span></div>
+        <div class="tsample" style="font-family:&quot;Nunito Sans Variable&quot;, &quot;Nunito Sans&quot;, ui-sans-serif, system-ui, sans-serif;font-weight:400;font-size:11px">Great American 1954</div>
+      </div>
+      <div class="typerow">
+        <div class="tlabel">Footnote<span>Nunito Sans 400 · 9.5px · sentence</span></div>
+        <div class="tsample" style="font-family:&quot;Nunito Sans Variable&quot;, &quot;Nunito Sans&quot;, ui-sans-serif, system-ui, sans-serif;font-weight:400;font-size:9.5px">Great American 1954</div>
+      </div>
+      <div class="typerow">
+        <div class="tlabel">Sign-off lockup<span>Archivo 600 · 13pt · uppercase</span></div>
+        <div class="tsample" style="font-family:&quot;Archivo Variable&quot;, &quot;Archivo&quot;, ui-sans-serif, system-ui, sans-serif;font-weight:600;font-size:17.333333333333332px;text-transform:uppercase">Great American 1954</div>
+      </div>
+      <div class="typerow">
+        <div class="tlabel">Sign-off qualifier<span>Nunito Sans 400 · 12px · sentence</span></div>
+        <div class="tsample" style="font-family:&quot;Nunito Sans Variable&quot;, &quot;Nunito Sans&quot;, ui-sans-serif, system-ui, sans-serif;font-weight:400;font-size:12px;font-style:italic">Great American 1954</div>
+      </div><p class="flag">⚠ Spec table says 12px; prose below it says 10pt (13.3px). Unresolved.</p>
+
+<h2>Motif</h2>
+<p class="sub">The waterline at all three legal scales, drawn by
+<code>lib/waterline.mjs</code> — the same function a consumer calls. Any other scale throws.</p>
+
+      <div class="motif">
+        <div class="tlabel">eyebrow<span>14px</span></div>
+        <div><svg xmlns="http://www.w3.org/2000/svg" width="44" height="14" viewBox="0 0 44 14" aria-hidden="true" focusable="false"><rect width="44" height="14" fill="#F7F4EE"/><rect x="0" y="0" width="14" height="14" fill="#4A9B9B"/><rect x="15" y="0" width="14" height="14" fill="#6BB5B5"/><rect x="30" y="0" width="14" height="14" fill="#CFE4E2"/></svg></div>
+      </div>
+      <div class="motif">
+        <div class="tlabel">cardCap<span>5px</span></div>
+        <div><svg xmlns="http://www.w3.org/2000/svg" width="17" height="5" viewBox="0 0 17 5" aria-hidden="true" focusable="false"><rect width="17" height="5" fill="#F7F4EE"/><rect x="0" y="0" width="5" height="5" fill="#4A9B9B"/><rect x="6" y="0" width="5" height="5" fill="#6BB5B5"/><rect x="12" y="0" width="5" height="5" fill="#CFE4E2"/></svg></div>
+      </div>
+      <div class="motif">
+        <div class="tlabel">divider<span>26px</span></div>
+        <div><svg xmlns="http://www.w3.org/2000/svg" width="80" height="26" viewBox="0 0 80 26" aria-hidden="true" focusable="false"><rect width="80" height="26" fill="#F7F4EE"/><rect x="0" y="0" width="26" height="26" fill="#4A9B9B"/><rect x="27" y="0" width="26" height="26" fill="#6BB5B5"/><rect x="54" y="0" width="26" height="26" fill="#CFE4E2"/></svg></div>
+      </div>
+
+<h2>Documents</h2>
+<p class="sub">Every type in the registry at true page aspect
+(816&times;1056px, 48px margin), showing its
+ground and whether motifs are permitted.</p>
+<div class="docs">
+      <figure class="doc">
+        <div class="page" style="width:150px;height:194.11764705882354px;background:#FFFFFF">
+          <div class="content" style="inset:8.823529411764707px"></div>
+          
+        </div>
+        <figcaption>
+          <b>price-sheet</b>
+          <span>transactional · paper · motifs none</span>
+        </figcaption>
+      </figure>
+      <figure class="doc">
+        <div class="page" style="width:150px;height:194.11764705882354px;background:#FFFFFF">
+          <div class="content" style="inset:8.823529411764707px"></div>
+          
+        </div>
+        <figcaption>
+          <b>warranty</b>
+          <span>transactional · paper · motifs none</span>
+        </figcaption>
+      </figure>
+      <figure class="doc">
+        <div class="page" style="width:150px;height:194.11764705882354px;background:#FFFFFF">
+          <div class="content" style="inset:8.823529411764707px"></div>
+          
+        </div>
+        <figcaption>
+          <b>return-policy</b>
+          <span>transactional · paper · motifs none</span>
+        </figcaption>
+      </figure>
+      <figure class="doc">
+        <div class="page" style="width:150px;height:194.11764705882354px;background:#FFFFFF">
+          <div class="content" style="inset:8.823529411764707px"></div>
+          
+        </div>
+        <figcaption>
+          <b>rma-form</b>
+          <span>transactional · paper · motifs none</span>
+        </figcaption>
+      </figure>
+      <figure class="doc">
+        <div class="page" style="width:150px;height:194.11764705882354px;background:#FFFFFF">
+          <div class="content" style="inset:8.823529411764707px"></div>
+          
+        </div>
+        <figcaption>
+          <b>quote</b>
+          <span>transactional · paper · motifs none</span>
+        </figcaption>
+      </figure>
+      <figure class="doc">
+        <div class="page" style="width:150px;height:194.11764705882354px;background:#FFFFFF">
+          <div class="content" style="inset:8.823529411764707px"></div>
+          
+        </div>
+        <figcaption>
+          <b>spec-sheet</b>
+          <span>transactional · paper · motifs none</span>
+        </figcaption>
+      </figure>
+      <figure class="doc">
+        <div class="page" style="width:150px;height:194.11764705882354px;background:#FFFFFF">
+          <div class="content" style="inset:8.823529411764707px"></div>
+          
+        </div>
+        <figcaption>
+          <b>agreement</b>
+          <span>transactional · paper · motifs none</span>
+        </figcaption>
+      </figure>
+      <figure class="doc">
+        <div class="page" style="width:150px;height:194.11764705882354px;background:#F7F4EE">
+          <div class="content" style="inset:8.823529411764707px"></div>
+          <div class="band"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="5" viewBox="0 0 17 5" aria-hidden="true" focusable="false"><rect width="17" height="5" fill="#F7F4EE"/><rect x="0" y="0" width="5" height="5" fill="#4A9B9B"/><rect x="6" y="0" width="5" height="5" fill="#6BB5B5"/><rect x="12" y="0" width="5" height="5" fill="#CFE4E2"/></svg></div>
+        </div>
+        <figcaption>
+          <b>flyer</b>
+          <span>collateral · sand · motifs full</span>
+        </figcaption>
+      </figure>
+      <figure class="doc">
+        <div class="page" style="width:150px;height:194.11764705882354px;background:#F7F4EE">
+          <div class="content" style="inset:8.823529411764707px"></div>
+          <div class="band"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="5" viewBox="0 0 17 5" aria-hidden="true" focusable="false"><rect width="17" height="5" fill="#F7F4EE"/><rect x="0" y="0" width="5" height="5" fill="#4A9B9B"/><rect x="6" y="0" width="5" height="5" fill="#6BB5B5"/><rect x="12" y="0" width="5" height="5" fill="#CFE4E2"/></svg></div>
+        </div>
+        <figcaption>
+          <b>line-sheet</b>
+          <span>collateral · sand · motifs full</span>
+        </figcaption>
+      </figure>
+      <figure class="doc">
+        <div class="page" style="width:150px;height:194.11764705882354px;background:#F7F4EE">
+          <div class="content" style="inset:8.823529411764707px"></div>
+          <div class="band"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="5" viewBox="0 0 17 5" aria-hidden="true" focusable="false"><rect width="17" height="5" fill="#F7F4EE"/><rect x="0" y="0" width="5" height="5" fill="#4A9B9B"/><rect x="6" y="0" width="5" height="5" fill="#6BB5B5"/><rect x="12" y="0" width="5" height="5" fill="#CFE4E2"/></svg></div>
+        </div>
+        <figcaption>
+          <b>brochure</b>
+          <span>collateral · sand · motifs full</span>
+        </figcaption>
+      </figure>
+      <figure class="doc">
+        <div class="page" style="width:150px;height:194.11764705882354px;background:#F7F4EE">
+          <div class="content" style="inset:8.823529411764707px"></div>
+          <div class="band"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="5" viewBox="0 0 17 5" aria-hidden="true" focusable="false"><rect width="17" height="5" fill="#F7F4EE"/><rect x="0" y="0" width="5" height="5" fill="#4A9B9B"/><rect x="6" y="0" width="5" height="5" fill="#6BB5B5"/><rect x="12" y="0" width="5" height="5" fill="#CFE4E2"/></svg></div>
+        </div>
+        <figcaption>
+          <b>catalog-cover</b>
+          <span>collateral · sand · motifs full</span>
+        </figcaption>
+      </figure></div>
+
+<h2>Brand colour</h2>
+<p class="sub">Identity values. Changing either carries trademark, tooling and reproduction
+consequences — see §1 of the spec.</p>
+
+      <div class="brand">
+        <div class="chip lg" style="background:#1F3A5F"></div>
+        <div class="meta">
+          <b>navy</b> <code>#1F3A5F</code>
+          <p>Lab (D50) L* 23.9 · a 0 · b -26</p>
+          <p>CMYK FOGRA39L_coated — C93 M63 Y7 K56 · total ink 219% · ΔE 1.5</p>
+          <p>Pantone not established</p>
+          <p class="note">Logo update to this value in progress. Any spec established against #1F4E79 is void.</p>
+        </div>
+      </div>
+      <div class="brand">
+        <div class="chip lg" style="background:#A84630"></div>
+        <div class="meta">
+          <b>cherry</b> <code>#A84630</code>
+          <p>Lab (D50) L* 43.1 · a 40 · b 34</p>
+          <p>CMYK FOGRA39L_coated — C9 M81 Y84 K32 · total ink 206% · ΔE 1</p>
+          <p>Pantone not established</p>
+          <p class="note">Confirmed from the color chart. Inside coated CMYK gamut, no spot ink required.</p>
+        </div>
+      </div>
+
+</body></html>

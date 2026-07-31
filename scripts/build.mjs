@@ -40,15 +40,9 @@ if (tagAt !== -1) {
 const T = JSON.parse(readFileSync(join(root, "tokens.json"), "utf8"));
 
 // ---------- color math ----------
-const lum = (hex) => {
-  const c = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
-    .map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
-  return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
-};
-const ratio = (a, b) => {
-  const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m);
-  return (x + 0.05) / (y + 0.05);
-};
+// Shared with scripts/specimen.mjs, so a ratio the specimen prints is the ratio this
+// validator enforced. Still no external dependencies.
+import { ratio } from "../lib/contrast.mjs";
 
 // ---------- validation ----------
 const errors = [];
@@ -160,6 +154,21 @@ for (const kind of ["logo", "icon"]) {
     for (const n of names.filter(Boolean))
       if (!allowed(n, kind))
         errors.push(`assets.${kind}.${field} names treatment "${n}", which assets.treatments does not define`);
+}
+
+// assets/photography/ holds reference frames, not the photo library. A shoot dropped in
+// here would be tens of megabytes of binaries versioned by product rather than by the
+// system — it belongs in a DAM. Warned rather than failed: the cap is a judgement about
+// what this repo is for, and a hard stop would be the wrong tool for that.
+const PHOTO_CAP_MB = 5;
+const photoDir = join(root, "assets/photography");
+if (existsSync(photoDir)) {
+  const bytes = walk(photoDir).reduce((n, f) => n + statSync(f).size, 0);
+  const mb = bytes / 1e6;
+  if (mb > PHOTO_CAP_MB)
+    warnings.push(`assets/photography/ is ${mb.toFixed(1)}MB, over the ${PHOTO_CAP_MB}MB cap. `
+      + `It holds reference frames only — under 500KB each, no more than a dozen. `
+      + `A photo library belongs in a DAM or object storage, not in git`);
 }
 
 // Source SVGs are tight-cropped to the mark. Padding baked into a viewBox compounds

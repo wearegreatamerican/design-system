@@ -48,11 +48,31 @@ upload `tokens.json` and `DESIGN-SYSTEM.md` during setup.
 
 **Figma.** Import `tokens.json` as variables.
 
+## Not in this repo
+
+The boundary, written down rather than assumed. Scope test: **would the Shopify
+portal and the admin portal both need it?** If not, it belongs to the consumer.
+
+| Not here | Where it lives |
+|---|---|
+| Page layouts and routing | Each consumer |
+| The Starwind semantic remap | Each consumer's stylesheet |
+| Container widths | Each consumer — `--container-site` is deliberately wider than this system's column and is not a mistake to correct |
+| SEO and analytics | Each consumer |
+| Product photography libraries | A DAM or object storage — see [assets/photography/](assets/photography/) |
+| Per-consumer framework components | Each consumer. The waterline ships as a function in [lib/](lib/) because its rule is upstream; the wrapper is not |
+| Product copy | Written against §12, not stored here |
+
+Voice, terminology and naming *are* here — §12 — because every consumer needs the
+same answer and would otherwise invent its own.
+
 ## Build
 
 ```bash
 npm run build     # regenerate build/ from tokens.json
 npm run check     # validate only, no writes
+npm run raster    # regenerate assets/raster/ from the SVG sources
+npm run specimen  # regenerate examples/specimen.html
 ```
 
 `build/` is committed. CI fails if it is stale, so run `npm run build` and
