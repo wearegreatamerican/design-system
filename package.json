@@ -16,6 +16,7 @@
   "files": [
     "build",
     "assets",
+    "docs",
     "tokens.json",
     "DESIGN-SYSTEM.md"
   ],

@@ -9,33 +9,28 @@ never by value. If a hex appears in two places, one of them is wrong.
 
 ---
 
-## Install
+## Starting a new consumer
 
 ```bash
-npm i github:wearegreatamerican/design-system#v1.1.1
+npm i github:wearegreatamerican/design-system#v1.2.0   # pin a tag, never a branch
 ```
 
-Pin to a tag. Tracking `main` means a token change lands in production without a
-version bump, which is the drift this repo exists to prevent.
+```css
+@import "tailwindcss";        /* the framework */
+@import "./starwind.css";     /* any UI kit that redefines the same names */
+@import "@greatamerican/design-system/css";   /* LAST, so brand tokens win */
+```
+
+Import what components render; copy only what needs a fixed URL (favicons,
+social cards) and generate those at build time. Rules: **§11 of
+[DESIGN-SYSTEM.md](DESIGN-SYSTEM.md#11-consuming-this-system)**. Worked setups:
+**[docs/consumers/](docs/consumers/)**.
 
 ## Use
 
-**Tailwind v4.** This file does **not** import the framework. You import
-`tailwindcss` first, then this, then anything that overrides against it:
-
-```css
-@import "tailwindcss";
-@import "@greatamerican/design-system/css";
-@import "./starwind.css";
-```
-
-Order matters. The design system defines the tokens; a UI-kit stylesheet
-overrides against them. Reversed, the kit's defaults win silently.
-
-If you want a single entry that pulls the framework too, use
-`@greatamerican/design-system/css/bundled`. Do not use both.
-
-Do not redeclare tokens locally.
+**Tailwind v4.** This file does not import the framework. Use
+`@greatamerican/design-system/css/bundled` for a single entry that does — not
+both.
 
 **Document builds and anything JS.**
 
@@ -92,14 +87,21 @@ tooling, and reproduction consequences. See §1 of the spec.
 and a reason. Deleting it outright loses the record of why it went, which is how
 values creep back in.
 
-**Never edit `build/`.** It is regenerated and your change will vanish.
+**Never edit `build/` or `assets/raster/`.** Both are regenerated and your change
+will vanish.
 
 ## Layout
 
 ```
-tokens.json          the only place a value is typed
-DESIGN-SYSTEM.md     the written spec, prose rules
-scripts/build.mjs    generator and validator, no dependencies
-build/tokens.css     generated: Tailwind @theme + aliases
-build/tokens.js      generated: for document builds
+tokens.json           the only place a value is typed
+DESIGN-SYSTEM.md      the written spec, prose rules; §11 is the consumer contract
+scripts/build.mjs     generator and validator, no dependencies
+scripts/raster.mjs    PNG generation from SVG (the one script with a dependency)
+build/tokens.css      generated: Tailwind @theme + aliases
+build/tokens.js       generated: for document builds
+assets/fonts/         static font families for document builds — see its README
+assets/logo/          logo SVG sources — see its README
+assets/icon/          icon SVG sources — see its README
+assets/raster/        generated PNGs — see its README
+docs/consumers/       worked setups for consuming projects
 ```

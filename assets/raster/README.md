@@ -35,6 +35,11 @@ That is the whole point. Most people who need the logo as a PNG are not
 developers and are not going to install a toolchain to get one. Committing the
 output is what makes the repo usable by them.
 
+That is for people, not for applications. **An application consuming this package
+imports these rather than copying them**, and copies only the handful that need a
+fixed URL — see
+[§11](../../DESIGN-SYSTEM.md#11-consuming-this-system).
+
 ## Regenerate in the same commit as the source
 
 **If you change an SVG, run `npm run raster` and commit the PNGs in the same

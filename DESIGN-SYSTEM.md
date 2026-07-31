@@ -714,3 +714,71 @@ lifestyle imagery.
   color~~ **Cleared for now.** No mark currently constrains the palette. The
   brand will notify when marks lock, at which point the brand colors become
   fixed and a change carries filing consequences
+
+---
+
+## 11. Consuming this system
+
+Rules for any project that depends on this package. They hold regardless of
+framework. Worked examples live in `docs/consumers/`; where an example and this
+section disagree, this section is right and the example is stale.
+
+### Install pinned
+
+Consumers install a **tag**, never a branch. Tracking the default branch means a
+token change reaches production without a version bump — a hex moves in this
+repo and a live surface changes with nothing recording that it did.
+
+A pin is also the only thing that makes a change reviewable. Moving from one tag
+to the next is a diff someone can read.
+
+### Import, do not copy
+
+Anything a component renders is **imported from the package**, so the consumer's
+own asset pipeline handles hashing, cache-busting and cleanup. That is what keeps
+one copy of the artwork in the world.
+
+A copied file is a second source of truth. It can be hand-edited, it does not
+change when the package changes, and nothing reports the divergence.
+
+### Copy only what needs a fixed URL
+
+Some files cannot be hashed, because something outside the application asks for
+them at a literal path: favicons, touch icons, social cards, anything a crawler,
+a mail client or a third-party embed fetches by URL.
+
+Those get copied. The rules for a copy:
+
+- **Generate it at build time** from the package, never by hand
+- **Ignore it in version control** — a committed copy is a fork
+- **Never edit it** — the copy is output, and the package is the source
+
+### Never redeclare a token
+
+Consumers import the theme. A locally defined `--color-navy` is drift with extra
+steps: it will be right on the day it is written and wrong the first time the
+token moves, with nothing to catch it.
+
+Mapping a token onto a local semantic name is fine, and is not the same thing —
+point the local name at the token, never at the value.
+
+### Never edit generated output
+
+`build/` and `assets/raster/` are regenerated from source. An edit to either
+disappears the next time anything runs, silently and with no conflict.
+
+### Read the file list from `tokens.json`
+
+A consumer that hardcodes asset paths drifts the moment an output is added,
+renamed or resized. The declarations are machine-readable for this reason — read
+`assets.raster.outputs` and derive the paths.
+
+Hardcoding also fails quietly in the one direction that matters: a file the
+package stopped producing leaves a stale copy behind rather than an error.
+
+### Artwork changes only on a version bump
+
+There is no path where a consumer's copy of the logo changes without a version
+bump, because artwork ships in the package and the package is pinned. That is
+intended, not a limitation — it means nobody's site changes on a morning when
+they did not deploy anything.

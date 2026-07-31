@@ -2,15 +2,10 @@
 
 Two delivery paths, and they do not overlap.
 
-**Web faces are npm dependencies.** All four families load through `@fontsource`
-and are not committed here:
-
-```
-@fontsource-variable/archivo
-@fontsource-variable/nunito-sans
-@fontsource-variable/oswald
-@fontsource/satisfy
-```
+**Web faces are npm dependencies** and are deliberately not committed here. The
+package list is declared in `tokens.json` under `assets.fonts.web`; installing
+them is consumer setup, covered in
+[docs/consumers/](../../docs/consumers/).
 
 The variable package names matter. `font.stack` in `tokens.json` names
 `"Archivo Variable"` first and `"Archivo"` second, because `@fontsource-variable`
