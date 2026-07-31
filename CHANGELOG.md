@@ -11,6 +11,37 @@ them. Read those before upgrading; the rest can be skimmed.
 
 Published tags are immutable. A tag is never moved once pushed.
 
+## [1.5.0] — 2026-07-31
+
+### Added
+
+- **`CD-system.md`** — the Claude Design system block, covering the reasoning,
+  typography, all 19 colour tokens with their roles, the motif, surfaces,
+  operational design direction and copy rules. Pasted into the Remix chat first,
+  with `CD-document-types.md` after it. Named for one system rather than one
+  surface: a web/print split in the filename is a fossil, since the spec governs
+  every surface.
+- **Hex validation for the `CD-*.md` files.** Every 6-digit hex in them must be a
+  live token; a retired value fails naming its replacement. The prose stays
+  hand-written and the values in it get checked, which is the same guard as the
+  SVG treatment scan pointed at prose. All 21 distinct values across both files
+  resolve.
+- A `README.md` section recording what the CD files are, the order they are
+  pasted in, and that they are the recovery record for a system that otherwise
+  exists only inside a UI.
+
+### Removed
+
+- **`CD-web-system.md`**, added in 1.4.0. Its WHY block is absorbed into
+  `CD-system.md`. If you are upgrading from 1.4.0 and pasted that file into
+  Claude Design, replace it with `CD-system.md` — it supersedes it entirely.
+- **The surface check guard is gone as a concept.** The original web system block
+  instructed Claude Design to refuse document work and defer to a "Print &
+  Documents system". The spec header states the opposite — every surface is
+  governed here and no separate print system exists — so restoring that file
+  as-is would have broken document generation. `CD-system.md` carries no such
+  guard and none should be reintroduced.
+
 ## [1.4.0] — 2026-07-31
 
 ### Added
@@ -163,6 +194,7 @@ Published tags are immutable. A tag is never moved once pushed.
   longer holding, and transactional documents declaring motifs or a non-`paper`
   ground.
 
+[1.5.0]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.5.0
 [1.4.0]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.4.0
 [1.3.0]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.3.0
 [1.2.0]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.2.0

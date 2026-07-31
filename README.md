@@ -57,6 +57,28 @@ upload `tokens.json` and `DESIGN-SYSTEM.md` during setup.
 
 **Figma.** Import `tokens.json` as variables.
 
+## Claude Design
+
+Two files at the repo root, pasted into the Remix chat **in this order**:
+
+| File | Order | Carries |
+|---|---|---|
+| `CD-system.md` | **first** | Reasoning, typography, colour, motif, surfaces, direction, copy rules |
+| `CD-document-types.md` | after it | The eleven document types and their structures |
+
+**They are the recovery record.** The Claude Design system otherwise exists only
+inside a UI: unversioned, unauditable, and one edit away from being
+unrecoverable. `CD-web-system.md` was in fact lost that way — it was never
+committed when this package was assembled, and the rules for the largest surface
+survived only in the chat. Change these files here, then paste.
+
+Both are condensations of `DESIGN-SYSTEM.md`, which governs on any disagreement.
+The prose is hand-written; **every hex in them is validated by `npm run build`**
+against `tokens.json`, and a retired value fails with its replacement.
+
+They are not shipped to consumers — they are inputs to a tool, not part of the
+package surface.
+
 ## Not in this repo
 
 The boundary, written down rather than assumed. Scope test: **would the Shopify

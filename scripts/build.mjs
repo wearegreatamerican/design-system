@@ -174,6 +174,24 @@ for (const kind of ["logo", "icon"]) {
         errors.push(`assets.${kind}.${field} names treatment "${n}", which assets.treatments does not define`);
 }
 
+// The Claude Design blocks are hand-written prose, but the values inside them are not
+// free text. They are pasted into a UI where nothing checks them, and a stale hex there
+// produces work that is subtly off-brand with no error anywhere. Same guard as the SVG
+// treatment scan, pointed at prose: every hex must be a live token, and a retired one
+// fails with its replacement rather than merely being unrecognised.
+for (const f of readdirSync(root).filter((n) => /^CD-.*\.md$/.test(n))) {
+  const found = new Set((readFileSync(join(root, f), "utf8").match(/#[0-9a-fA-F]{6}\b/g) ?? [])
+    .map((h) => h.toUpperCase()));
+  for (const hex of found) {
+    if (Object.values(T.color).some((t) => t.value.toUpperCase() === hex)) continue;
+    const dead = T.retired.find((r) => !r.keep && r.value.toUpperCase() === hex);
+    errors.push(dead
+      ? `${f} uses ${hex}, which is retired. Use ${dead.replacedBy} (${dead.reason})`
+      : `${f} uses ${hex}, which is not a token in tokens.json and not a recorded retired `
+        + `value. Either it is drift, or it is a real value that was never added`);
+  }
+}
+
 // assets/photography/ holds reference frames, not the photo library. A shoot dropped in
 // here would be tens of megabytes of binaries versioned by product rather than by the
 // system — it belongs in a DAM. Warned rather than failed: the cap is a judgement about
