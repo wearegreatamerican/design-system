@@ -257,7 +257,7 @@ Computed, WCAG 2.x relative luminance. Every figure in this table is measured.
 | aqua-lt on navy | 4.87 | passes |
 | cherry on mortar | 4.46 | large text only |
 | persimmon on sand | 4.00 | large text only |
-| aqua on sand | 3.53 | large text only |
+| aqua on sand | 2.96 | fill only, never text |
 | aggregate on sand | 3.41 | large text only |
 | persimmon on navy | 2.62 | **fails, never use** |
 | cherry on navy | 1.96 | **fails, never use** |
@@ -266,6 +266,13 @@ Nothing in the accent ramp may sit directly on navy except `persimmon-lt`.
 
 `cherry` on `mortar` measures 4.46 and misses the small-text threshold. Cherry
 eyebrows on a mortar panel need to move to `paper` or `shell`, or size up.
+
+`aqua` on `sand` measures 2.96, under the 3.0 floor for large text, so it is a
+fill colour and never a text colour. Changing the ground does not rescue it:
+`aqua` on `paper` measures 3.25, but every paper-grounded document type carries
+no motifs, so that pairing does not arise. `aqua-lt` is the only aqua that
+carries text and it does so on dark grounds, where it measures 4.87 on `navy` and
+6.98 on `ink`.
 
 `aqua-mid` and `aqua-pale` are decorative only and carry no text anywhere. Both
 are `aria-hidden`.
@@ -756,6 +763,25 @@ token moves, with nothing to catch it.
 
 Mapping a token onto a local semantic name is fine, and is not the same thing —
 point the local name at the token, never at the value.
+
+### Load the system last
+
+The package's values have to be the ones that survive. Declarations resolve in
+load order and the last one wins, so **anything else that declares the same names
+loads before the design system, not after** — a UI kit, a component library, a
+theme preset, a CSS reset with opinions.
+
+Getting this backwards does not error. It produces a build where some values are
+the brand's and some are a dependency's, with nothing indicating which is which,
+and the wrong ones are usually plausible enough to survive review. A radius two
+pixels off does not look like a bug; it looks like a decision.
+
+The one thing that comes after the system is **your own** site-specific values.
+Those are meant to win. A dependency's defaults are not.
+
+This is why the package deliberately does not import a framework: a package that
+imports its own dependencies decides its own position in the order, and that
+decision belongs to the consumer.
 
 ### Never edit generated output
 

@@ -57,7 +57,9 @@ file.
 @import '@greatamerican/design-system/css';
 ```
 
-**The design system is imported last, and that is load-bearing.**
+**The design system is imported last, and that is load-bearing.** This is §11's
+*"Load the system last"* in its Tailwind-and-Starwind form; the general rule is
+there, and what follows is what it costs specifically here.
 
 Tailwind v4 `@theme` values collide by source order — the last declaration of a
 variable wins. Starwind redefines the entire `--radius-*` scale as `calc()`

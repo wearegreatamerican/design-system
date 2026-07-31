@@ -35,7 +35,25 @@ Published tags are immutable. A tag is never moved once pushed.
   is committed.
 - **`assets/photography/`.** Reference frames only, with the reasoning for why a
   photo library does not belong in git. The build warns above 5MB.
+- **§11 "Load the system last".** Load order decides which values survive, and
+  getting it backwards fails silently — a radius two pixels off reads as a
+  decision rather than a bug. The README example is framework-neutral; the
+  Tailwind and Starwind specifics stay in `docs/consumers/astro.md`.
 - **"Not in this repo"** in `README.md`, recording the boundary.
+
+### Fixed
+
+- **`aqua on sand` in §3 was stated as 3.53; it measures 2.96.** No current or
+  retired token produces 3.53. It was listed as "large text only", which the real
+  figure does not support — 2.96 is under the 3.0 floor — so the verdict is now
+  **fill only, never text**. `aqua` is a chip fill; `aqua-lt` is the only aqua
+  that carries text, and it does so on dark grounds. Replacing the pairing with
+  `aqua on paper` (3.25) was rejected: every paper-grounded document type carries
+  no motifs, so that pairing does not arise.
+- **The build now checks every ratio the spec states against the tokens.**
+  `rules.minContrast` enforces 11 pairs while §3's reference table asserts 16, so
+  five figures were unenforced and one had drifted. The table says every figure
+  in it is measured; this is what makes that true.
 
 ### Changed
 

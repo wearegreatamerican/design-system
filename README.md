@@ -16,13 +16,17 @@ npm i github:wearegreatamerican/design-system#v1.2.0   # pin a tag, never a bran
 ```
 
 ```css
-@import "tailwindcss";        /* the framework */
-@import "./starwind.css";     /* any UI kit that redefines the same names */
-@import "@greatamerican/design-system/css";   /* LAST, so brand tokens win */
+@import "tailwindcss";                        /* 1. framework */
+@import "./ui-kit.css";                       /* 2. anything else declaring theme values */
+@import "@greatamerican/design-system/css";   /* 3. the system, so brand values win */
+@import "./site.css";                         /* 4. your own overrides, which do win */
 ```
 
-Import what components render; copy only what needs a fixed URL (favicons,
-social cards) and generate those at build time. Rules: **§11 of
+**Load order decides which values survive** — last wins, so the system goes after
+any dependency that declares the same names and before your own overrides.
+
+Import what components render; copy only what needs a fixed URL (favicons, social
+cards) and generate those at build time. Rules: **§11 of
 [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md#11-consuming-this-system)**. Worked setups:
 **[docs/consumers/](docs/consumers/)**.
 

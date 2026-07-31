@@ -81,6 +81,24 @@ for (const r of T.rules.minContrast) {
     errors.push(`contrast: ${r.fg} on ${r.bg} is ${got.toFixed(2)}, needs ${r.min} (${r.why})`);
 }
 
+// Every ratio stated in the spec's contrast reference must match the tokens. The spec
+// header promises "the build fails if the two disagree", and until now that held for
+// hexes but not for these figures: rules.minContrast enforces 11 pairs while the table
+// asserts 16, and one of the unenforced five had drifted to a number no token produces.
+// The table says "Every figure in this table is measured" — this is what makes that true.
+// Rows naming a non-token (white) or a composite (ink/85 over mortar) are skipped.
+const specPath = join(root, T.meta.spec);
+if (existsSync(specPath)) {
+  const spec = readFileSync(specPath, "utf8");
+  for (const [, fg, bg, stated] of spec.matchAll(/^\| *`?([a-z][a-z-]*)`? on `?([a-z][a-z-]*)`? *\| *([0-9]+\.[0-9]+) *\|/gm)) {
+    if (!T.color[fg] || !T.color[bg]) continue;
+    const got = ratio(T.color[fg].value, T.color[bg].value);
+    if (Math.abs(got - parseFloat(stated)) >= 0.005)
+      errors.push(`${T.meta.spec} states ${fg} on ${bg} is ${stated}, but the tokens measure `
+        + `${got.toFixed(2)}. The spec quotes measurements, so one of the two is wrong`);
+  }
+}
+
 // barred pairs should genuinely fail, otherwise the ban is stale
 for (const [bg, list] of Object.entries(T.rules.barredOn))
   for (const fg of list) {
