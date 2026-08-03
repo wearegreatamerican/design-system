@@ -78,14 +78,23 @@ asset.
 The stylized mark needs no exemption. It is drawn in navy and sand, both palette
 colours, and validates against the ordinary treatment rules like everything else.
 
-## It forms part of a claim
+## It is a brand mark, not a claim
 
-The icon usually sits beside a made-in-USA statement, which means **it is read as
-part of that claim, not as decoration.** Where it appears alongside a product,
-the claim it implies has to be true for that product.
+**The icon is a brand mark and is free to use.** Ruled by the brand owner on
+2026-08-03, after an earlier version of this file was read as saying the opposite
+and the mark was pulled from the site along with a set of origin claims.
 
-Treat placement as a copy decision, not a layout one. If you would not write the
-words, do not place the icon.
+It is a stylized flag in brand colours, not a literal US flag and not an
+assertion about where a product was made. It carries no sourcing precondition and
+nothing needs verifying before it can be placed.
+
+**What does carry a precondition is origin wording.** "Made in the U.S.A.",
+"American-made" and the like are claims in text, they are governed by the FTC's
+Made in USA Labeling Rule, and they require the domestic-content determination
+behind them. That constraint attaches to the words.
+
+So: if a compliance review suspends origin claims, it suspends the **wording**.
+The mark stays.
 
 ## Validation
 

@@ -11,6 +11,24 @@ them. Read those before upgrading; the rest can be skimmed.
 
 Published tags are immutable. A tag is never moved once pushed.
 
+## [1.5.1] — 2026-08-03
+
+### Changed
+
+- **The flag mark is documented as a brand mark, not an origin claim.** Nothing
+  about the artwork changes — this is a wording fix with consequences.
+
+  `assets.icon.note` previously ended *"Usually sits beside a made-in-USA claim,
+  so it forms part of that claim,"* and `assets/icon/README.md` carried a section
+  headed *"It forms part of a claim."* Read as policy, that made the mark look
+  like it carried a sourcing precondition, and a compliance pass on the marketing
+  site pulled it from the topbar and footer on exactly that basis.
+
+  The brand owner's ruling (2026-08-03): it is a stylized brand mark, free to
+  use, with no sourcing precondition. **Origin claims live in wording** — "Made
+  in the U.S.A.", "American-made" — which is what the FTC's Made in USA Labeling
+  Rule governs and what a compliance review should suspend. The mark stays.
+
 ## [1.5.0] — 2026-07-31
 
 ### Added
@@ -194,6 +212,7 @@ Published tags are immutable. A tag is never moved once pushed.
   longer holding, and transactional documents declaring motifs or a non-`paper`
   ground.
 
+[1.5.1]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.5.1
 [1.5.0]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.5.0
 [1.4.0]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.4.0
 [1.3.0]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.3.0
