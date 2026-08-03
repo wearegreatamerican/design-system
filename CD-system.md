@@ -189,7 +189,18 @@ Avoid "not X, but Y" and "X, not Y" unless the contrast is load-bearing.
 
 Plainspoken trade-professional tone. No guru-speak, no corporate abstraction.
 
-Say "trade partners" or "verified trade network". Never "dealers".
+Channel terms are not interchangeable. TRADE PARTNER, or verified trade network,
+is the whole network — anyone verified, however they buy. DEALER is the
+direct-sell tier: pool builders, designers, landscape architects. DISTRIBUTOR and
+BUYING GROUP are the reselling tiers; a buying group buys, pays and redistributes
+to its members. NATIONAL ACCOUNT is a negotiated direct-terms designation, not a
+tier, and those terms apply on direct purchase only.
+
+Terms follow the entity that places the order and pays Great American. A dealer
+buying through a distributor is still a trade partner but is not the customer on
+that order. Never use "dealer" to mean the whole network, and never imply a
+distributor or a buying group is a dealer. "Dealer" is a tier, not a word to
+avoid — name the tier you mean.
 
 Product water behaviour is precise language, not description, and the three are
 not interchangeable. Sheer projects a smooth curtain out and down. Rain drops in

@@ -942,9 +942,37 @@ distinction to preserve if the range grows.
 
 Binding. These are not preferences.
 
-| Say | Never |
+**The channel has four terms and they are not interchangeable.**
+
+| Term | Means |
 |---|---|
-| trade partners, verified trade network | dealers |
+| **Trade partner**, **verified trade network** | The whole network. Anyone verified, however they buy. |
+| **Dealer** | The direct-sell tier: pool builders, designers, landscape architects. |
+| **Distributor**, **buying group** | The reselling tiers. A buying group is structurally a distributor: it buys, it pays, it redistributes to its members. |
+| **National account** | A negotiated direct-terms designation, not a tier. |
+
+**Terms follow the entity that places the order and pays Great American.** That
+is the whole rule, and it resolves the cases that look ambiguous:
+
+- A **dealer buying through a distributor** is still a verified trade partner,
+  but is not the customer on that order — the distributor is.
+- A **national account** buying through a distributor or a buying group receives
+  that channel's terms and nothing else. The negotiated terms apply on direct
+  purchase only.
+
+So *trade partner* and *the account we invoice* are different sets. Copy that
+uses one for the other is wrong even when it sounds friendlier.
+
+**Never use "dealer" to mean the whole network.** It flattens three tiers and
+implies distributors are dealers.
+
+**Never imply a distributor or a buying group is a dealer.**
+
+> **"Dealer" is not a word to avoid.** An earlier version of this section said to
+> never use it, which was reacting to the catch-all error above. It was also
+> unfollowable: the pricing engine emits a Dealer price, the discount ladder
+> measures from dealer list, and `GA-RETURNS-DEALER-01` is a locked document. The
+> fix is precision, not avoidance. Name the tier you mean.
 
 **Product water behaviour is precise language, not description.** These sentences
 describe mechanically different products and are not interchangeable:

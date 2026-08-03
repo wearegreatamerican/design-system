@@ -11,6 +11,46 @@ them. Read those before upgrading; the rest can be skimmed.
 
 Published tags are immutable. A tag is never moved once pushed.
 
+## [1.6.0] — 2026-08-03
+
+### Changed
+
+- **The channel terminology rule is replaced.** §12 previously said to say "trade
+  partners" or "verified trade network" and **never "dealers"**. That was wrong.
+  "Dealer" is a specific tier in the channel, not a word to avoid — and the rule
+  was unfollowable, since the pricing engine emits a Dealer price, the discount
+  ladder measures from dealer list, and `GA-RETURNS-DEALER-01` is a locked
+  document.
+
+  §12 Terminology now carries the four-term model:
+
+  | Term | Means |
+  |---|---|
+  | **Trade partner**, **verified trade network** | The whole network |
+  | **Dealer** | The direct-sell tier: pool builders, designers, landscape architects |
+  | **Distributor**, **buying group** | The reselling tiers |
+  | **National account** | A direct-terms designation, not a tier |
+
+  **Terms follow the entity that places the order and pays Great American.** A
+  dealer buying through a distributor is still a verified trade partner but is
+  not the customer on that order; a national account buying through a distributor
+  gets that channel's terms only. *Trade partner* and *the account we invoice*
+  are different sets, and the old rule collapsed them.
+
+  The two prohibitions that remain: never use "dealer" to mean the whole network,
+  and never imply a distributor or buying group is a dealer. The original rule
+  was reacting to that catch-all error; the fix is precision, not avoidance.
+
+- `CD-system.md` carries the same model, condensed.
+
+### If you applied the old rule
+
+**Check any copy where you replaced "dealer" with "trade partner".** Where the
+text meant the direct-sell tier specifically — a homeowner's point of contact, a
+signup flow for builders and designers, a "find one near you" link — "trade
+partner" is now imprecise in the other direction, because it names the whole
+network including distributors the reader cannot buy from.
+
 ## [1.5.1] — 2026-08-03
 
 ### Changed
@@ -212,6 +252,7 @@ Published tags are immutable. A tag is never moved once pushed.
   longer holding, and transactional documents declaring motifs or a non-`paper`
   ground.
 
+[1.6.0]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.6.0
 [1.5.1]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.5.1
 [1.5.0]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.5.0
 [1.4.0]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.4.0
