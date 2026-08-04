@@ -357,6 +357,30 @@ export const retired = [
 
 export const documents = {
   "_note": "Document type registry. Each entry says what an artifact IS, so a request like 'make me a price sheet' resolves to structure and type roles rather than a generic table. Ground and motifs are properties of the artifact, decided at design time. Printing never transforms them.",
+  "_printVariant": {
+    "suffix": "-print",
+    "use": "Office printer optimized. White ground, no motifs, colours chosen to survive greyscale.",
+    "runningFooter": "Office printer optimized",
+    "ground": {
+      "from": "sand",
+      "to": "paper"
+    },
+    "keep": [
+      "navy",
+      "cherry"
+    ],
+    "replace": [
+      "aqua",
+      "persimmon"
+    ],
+    "panelFill": {
+      "token": "mortar",
+      "from": "fill",
+      "to": "hairline"
+    },
+    "motifs": "omitted",
+    "_note": "A variant flag, not a document class, and not a web print style — this describes a generated document, and nothing here affects how a browser prints a page. Which documents get one is answered per document as they are built, and is deliberately not recorded here. `keep` survives greyscale (navy L* 24, cherry L* 43); `replace` does not (aqua L* 59, persimmon L* 51, eight points apart and muddy). The replacement is a design decision per document rather than a global mapping: navy and cherry absorb some of it, and anything needing three distinct values uses pattern or position instead of a third colour. Both versions come from ONE source with the treatment applied at export — two source documents drift the way two copies of a token drift, and you find out when a price is right in one and stale in the other. The running footer is required because a filename suffix is lost the first time a file is renamed or forwarded."
+  },
   "price-sheet": {
     "class": "transactional",
     "ground": "paper",

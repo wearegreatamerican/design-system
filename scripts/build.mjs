@@ -120,6 +120,36 @@ for (const [name, d] of Object.entries(T.documents ?? {})) {
     errors.push(`document "${name}" is transactional but sits on "${d.ground}". Transactional documents are designed on paper`);
 }
 
+// The -print variant names tokens by name, so those names are checked like any other
+// token reference. Otherwise a renamed or retired colour leaves the variant pointing at
+// nothing, and the failure surfaces as a document exported in the wrong colour rather
+// than as an error.
+const PV = T.documents?._printVariant;
+if (PV) {
+  const named = [
+    ["ground.from", PV.ground?.from], ["ground.to", PV.ground?.to],
+    ["panelFill.token", PV.panelFill?.token],
+    ...(PV.keep ?? []).map((k, i) => [`keep[${i}]`, k]),
+    ...(PV.replace ?? []).map((k, i) => [`replace[${i}]`, k]),
+  ];
+  for (const [field, token] of named)
+    if (token && !T.color[token])
+      errors.push(`documents._printVariant.${field} names "${token}", which is not a token`);
+  // The whole point of the split is that `keep` survives greyscale and `replace` does not.
+  // If a token moved lightness far enough to land on the wrong side of that, the variant
+  // is quietly wrong, so the L* ordering is asserted rather than assumed.
+  const L = (k) => T.color[k]?.l;
+  const keptSpread = Math.abs((L(PV.keep?.[0]) ?? 0) - (L(PV.keep?.[1]) ?? 0));
+  const replacedSpread = Math.abs((L(PV.replace?.[0]) ?? 0) - (L(PV.replace?.[1]) ?? 0));
+  if (PV.keep?.length === 2 && PV.replace?.length === 2 && keptSpread <= replacedSpread)
+    errors.push(`documents._printVariant: the kept pair (${PV.keep.join(", ")}) is ${keptSpread.toFixed(1)} L* apart `
+      + `and the replaced pair (${PV.replace.join(", ")}) is ${replacedSpread.toFixed(1)}. The variant keeps colours `
+      + `because they separate in greyscale and replaces colours because they do not, so this is backwards`);
+  if (!PV.runningFooter)
+    errors.push(`documents._printVariant declares no runningFooter. A -print variant has to say so on the page, `
+      + `because the filename suffix is lost the first time the file is renamed or forwarded`);
+}
+
 // every SVG under assets/ must match its treatment's allowed colours. Not a flat palette
 // check: the treatment comes from the filename suffix, so a -sand logo carrying cherry
 // fails here even though cherry is a perfectly valid brand colour somewhere else.

@@ -11,6 +11,56 @@ them. Read those before upgrading; the rest can be skimmed.
 
 Published tags are immutable. A tag is never moved once pushed.
 
+## [1.7.0] — 2026-08-04
+
+### Added
+
+- **The `-print` document variant** — office printer optimized: white ground, no
+  motifs, colours chosen to survive greyscale. Registered as a **variant flag,
+  not a document class**, under `documents._printVariant`.
+
+  | | Substitution |
+  |---|---|
+  | Ground | `sand` → `paper` |
+  | `navy`, `cherry` | unchanged — L\* 24 and 43 separate cleanly in greyscale |
+  | `aqua`, `persimmon` | replaced — L\* 59 and 51, eight points apart, they muddy |
+  | Panel fills | `mortar` fill → `mortar` hairline |
+  | Motifs | omitted |
+
+  The aqua/persimmon substitution is **per document, not global**: where those
+  two carry meaning the replacement is a design decision, and anything needing
+  three distinct values uses pattern or position rather than a third colour.
+
+  **Both versions come from one source**, with the treatment applied at export.
+  Two source documents drift the way two copies of a token drift, and you find
+  out when a price is right in one and stale in the other.
+
+  **A `-print` variant carries "Office printer optimized" in its running
+  footer** — the filename suffix is lost the first time a file is renamed or
+  forwarded.
+
+  Which documents get one is answered per document as they are built, and is
+  deliberately not recorded.
+
+- **Validation for the variant.** The tokens it names are checked like any other
+  token reference, so a renamed or retired colour fails the build instead of
+  surfacing as a document exported in the wrong colour. The build also asserts
+  the kept pair is further apart in L\* than the replaced pair — the premise the
+  whole variant rests on — and that a running footer is declared.
+
+- **§3: colour is never the sole carrier of information.** Pair it with a label,
+  an icon or a position. This is what makes the variant possible: a variant can
+  replace a colour but cannot recover a distinction only ever carried by one.
+
+- **`DECISIONS.md`**, recording why a rule has the shape it does. Shipped with
+  the package.
+
+### Not included
+
+**No web print styles changed.** No `@media print` block, no `printGround`
+token, and no change to how a browser prints a page. This is a variant of a
+generated document and nothing else.
+
 ## [1.6.0] — 2026-08-03
 
 ### Changed
@@ -252,6 +302,7 @@ network including distributors the reader cannot buy from.
   longer holding, and transactional documents declaring motifs or a non-`paper`
   ground.
 
+[1.7.0]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.7.0
 [1.6.0]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.6.0
 [1.5.1]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.5.1
 [1.5.0]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.5.0

@@ -309,6 +309,22 @@ Remove on sight. Do not reintroduce.
 | `#CFC7B9` | `aggregate` `#8B8378` | Document group divider. 3.2 ΔE from `tabby`, but `tabby` is the hairline, and a divider that must read needs the darker rung |
 | `#5A6674` | `slate` `#3A4654` | Old ink-body |
 
+### Colour is never the sole carrier of information
+
+**Where colour conveys meaning, pair it with a label, an icon or a position.**
+Not to satisfy a rule — because the information has to survive being
+photocopied, faxed, printed on a mono laser, or read by someone who does not
+separate those hues.
+
+`navy` and `cherry` separate in greyscale at L\* 24 and 43. **`aqua` and
+`persimmon` do not**, at L\* 59 and 51 — eight points apart, and they collapse
+into each other.
+
+This is what makes the `-print` variant possible at all. A variant can replace a
+colour; it cannot recover a distinction that was only ever carried by one. If a
+chart, a status or a key depends on aqua-versus-persimmon and nothing else, no
+variant rescues it — that has to be fixed in the source. See §7.
+
 ### Contrast reference
 
 Computed, WCAG 2.x relative luminance. Every figure in this table is measured.
@@ -714,6 +730,41 @@ for completion. The Claude Design output is a handoff, not an artifact.
 
 Archivo, Nunito Sans, Oswald, and Satisfy are all Google Fonts and resolve
 natively in Figma with no substitution.
+
+### The `-print` variant
+
+**`-print` — office printer optimized. White ground, no motifs, colours chosen to
+survive greyscale.** That one line is the whole explanation. Anyone seeing
+`Aqua-Line-Sheet-print.pdf` beside `Aqua-Line-Sheet.pdf` picks correctly.
+
+It is a **variant flag, not a document class**, and it describes a generated
+document. Nothing here changes how a browser prints a page.
+
+Substitutions from the full-colour version:
+
+| | Substitution |
+|---|---|
+| Ground | `sand` → `paper` |
+| `navy`, `cherry` | **unchanged.** L\* 24 and 43 separate cleanly in greyscale |
+| `aqua`, `persimmon` | **replaced.** L\* 59 and 51 are eight points apart and muddy |
+| Panel fills | `mortar` fill → `mortar` hairline |
+| Motifs | omitted |
+
+**The aqua and persimmon substitution is per document, not global.** Where those
+two carry meaning, the replacement is a design decision: `navy` and `cherry`
+absorb some of it, and anything needing three distinct values uses pattern or
+position rather than reaching for a third colour.
+
+**Both versions come from one source**, with the colour treatment applied at
+export. Two source documents drift the way two copies of a token drift, and you
+find out when a price is right in one and stale in the other.
+
+**A `-print` variant carries "Office printer optimized" in its running footer.**
+The filename suffix is lost the first time the file is renamed or forwarded. The
+footer survives that.
+
+Which documents get a `-print` variant is answered per document as they are
+built, and is deliberately not listed here.
 
 ### Migration
 

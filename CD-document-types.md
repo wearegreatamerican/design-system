@@ -81,6 +81,16 @@ Never strip or add decoration on the way to a printer.
   CATALOG COVER — collateral. Full-bleed image or flat colour field, wordmark,
   catalog title, edition or year. Sunburst once. No body copy.
 
+-PRINT VARIANTS are office printer optimized: white ground, no motifs, and
+colours chosen to survive greyscale. navy and cherry are unchanged; aqua and
+persimmon are replaced, because L* 59 and 51 are eight points apart and muddy in
+mono. Panel fills become hairlines. The variant carries "Office printer
+optimized" in its running footer. Both versions come from one source, with the
+treatment applied at export.
+
+COLOUR IS NEVER THE SOLE CARRIER OF INFORMATION. Pair it with a label, an icon or
+a position. navy and cherry separate in greyscale; aqua and persimmon do not.
+
 PAGE GEOMETRY applies to every document type: US Letter, 816 x 1056 px at
 96 ppi, 48 px margins, 720 x 960 content box. Never an arbitrary web width.
 

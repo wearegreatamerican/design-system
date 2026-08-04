@@ -1,6 +1,6 @@
 {
   "name": "@greatamerican/design-system",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Great American brand design system. Tokens, spec, and generated outputs.",
   "type": "module",
   "license": "UNLICENSED",
@@ -22,7 +22,8 @@
     "examples",
     "tokens.json",
     "DESIGN-SYSTEM.md",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    "DECISIONS.md"
   ],
   "scripts": {
     "build": "node scripts/build.mjs",
