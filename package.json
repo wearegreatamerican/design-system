@@ -1,6 +1,6 @@
 {
   "name": "@greatamerican/design-system",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "Great American brand design system. Tokens, spec, and generated outputs.",
   "type": "module",
   "license": "UNLICENSED",

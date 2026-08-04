@@ -11,6 +11,49 @@ them. Read those before upgrading; the rest can be skimmed.
 
 Published tags are immutable. A tag is never moved once pushed.
 
+## [1.8.0] — 2026-08-04
+
+### Changed
+
+- ⚠ **BREAKING — price lists are collateral, not transactional.** They are left
+  behind at dealers, so the artifact is looked at rather than only filed.
+  `price-sheet` moves from `class: transactional`, `ground: paper`,
+  `motifs: none` to `class: collateral`, `ground: sand`, `motifs: full`, and
+  declares `printVariant: true`.
+
+  **A generator that reads the registry will now produce a price sheet on `sand`
+  with the full motif set.** If you want the old output, that is the `-print`
+  variant: `paper`, no motifs — the treatment a price sheet had as a
+  transactional type. Nothing was lost; it moved to the variant.
+
+  Scope is price lists only for now. Warranty, return policy, RMA, quote, spec
+  sheet and agreement stay transactional and move individually if they become
+  leave-behinds.
+
+- ⚠ **BREAKING — the sign-off sub-line is Satisfy at 20px, in every document
+  type.** `Built to be trusted` was Nunito Sans italic at 12px in documents and
+  Satisfy on web lockups. The split existed only because Satisfy is display-size
+  only and had no small form, so the fix is to size the sign-off up rather than
+  bend the rule. Documents and web no longer diverge.
+
+  20px is `--text-lg`. At that size the script's set width matches the 13pt
+  lockup above it, so the two read as one block; at 24px it overruns the lockup.
+
+- **The sign-off reserve is 71px, was 63px — and a page carrying it fits 39 data
+  rows, not 40.** Measured with the real faces loaded: the block grew from 34.3px
+  to 42.1px, which costs five rows at 17.5px instead of four. **If you have built
+  against the 40-row ceiling, re-check it.** The derivation was validated against
+  the published figures first — 63px and 44 rows reproduce the published 40
+  exactly.
+
+  The sub-line stays `cherry` rather than `persimmon`: 20px is under the 24px
+  large-text threshold, so it is still small text, and it now sits on `sand`
+  where `cherry` measures 5.34 against `persimmon` at 4.00.
+
+- The unresolved `Sign-off qualifier` flag is retired. It recorded that the type
+  map said 12px while the prose said 10pt; both were Nunito Sans figures and no
+  longer apply.
+
 ## [1.7.0] — 2026-08-04
 
 ### Added
@@ -302,6 +345,7 @@ network including distributors the reader cannot buy from.
   longer holding, and transactional documents declaring motifs or a non-`paper`
   ground.
 
+[1.8.0]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.8.0
 [1.7.0]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.7.0
 [1.6.0]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.6.0
 [1.5.1]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.5.1

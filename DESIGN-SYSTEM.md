@@ -465,6 +465,11 @@ Eyebrows are always Oswald, without exception.
 
 Satisfy stays flat and trailing. Never angled. Never leading a composition.
 
+**The document sign-off is a sanctioned Satisfy location.** `Built to be trusted`
+is Satisfy in every document type, at 20px — see §7. It is display size, so it
+does not bend the rule above; the sign-off was sized up to meet it rather than
+Satisfy being shrunk to fit a document.
+
 No fourth typeface.
 
 **Archivo Black is a different family from Archivo, and it is not in the system.**
@@ -554,12 +559,18 @@ decorated artifact. Any print-specific CSS should be mechanical only — page
 break control, hiding nav chrome — and must not alter ground, palette, or
 decoration.
 
-**Transactional** covers warranty, return policies, RMA, agreements, price
-lists, quotes, spec sheets. White ground always. No tint, no texture, no full
-bleed. These are printed on distributor office equipment, scanned, and filed.
+**Transactional** covers warranty, return policies, RMA, agreements, quotes, spec
+sheets. White ground always. No tint, no texture, no full bleed. These are
+printed on distributor office equipment, scanned, and filed.
 
-**Collateral** covers brochures, line sheets, trade one-pagers, catalog covers.
-Commercially printed, so a tinted ground is fine.
+**Collateral** covers brochures, line sheets, trade one-pagers, catalog covers,
+and **price lists**. Commercially printed, so a tinted ground is fine.
+
+**Price lists moved from transactional to collateral** (2026-08-04). They are
+left behind at dealers, which makes the artifact something looked at rather than
+only filed. The download is the `-print` variant — `paper`, no motifs — which is
+the treatment a price sheet had as a transactional type, so nothing was lost. It
+moved to the variant. See §7.
 
 `sand` against white measures 1.1:1 and will not survive a laser printer. For
 document panels that must read, use `mortar` at 1.31:1.
@@ -628,12 +639,12 @@ header row is 22px.
 | Column header row | 22 |
 | Three footnotes at 9.5px | 70 |
 | Page footer with its rule | 24 |
-| Sign-off block, where present | 63 |
+| Sign-off block, where present | 71 |
 
 | Page | Max data rows |
 |---|---|
 | Table only, no sign-off | **44** |
-| Table with the sign-off block | **40** |
+| Table with the sign-off block | **39** |
 
 Those two are measured, not derived — rows were cloned into a built sheet until
 the fit guard broke. Treat them as ceilings for a page carrying the full masthead
@@ -672,7 +683,7 @@ what the comps are drawn in. Do not round them to a type scale or snap them to a
 | Body, table cell, running copy | Nunito Sans | 400 | 11px | sentence |
 | Footnote | Nunito Sans | 400 | 9.5px | sentence |
 | Sign-off `Great American.` | Archivo | 600 | 13pt | UPPERCASE |
-| Sign-off qualifier | Nunito Sans | 400 italic | 12px | sentence |
+| Sign-off qualifier `Built to be trusted` | Satisfy | 400 | 20px | sentence |
 
 **800 is the cover masthead only.** Continuation mastheads and section headings
 are 600; at these sizes 800 reads shouty.
@@ -682,14 +693,22 @@ default instance is SemiBold, so an unweighted load renders the masthead at 600
 with no error and no visible fallback — it just looks slightly wrong. Read the
 computed `fontWeight` back rather than trusting the stylesheet.
 
-The sign-off sub-line has two forms.
+**The sign-off sub-line is `Built to be trusted`, set in Satisfy, in every
+document type.** Documents and web lockups no longer diverge — the earlier split,
+where documents took Nunito Sans italic because Satisfy had no small form, is
+gone. Satisfy is display-size only, so the document sign-off is set at **20px**
+rather than shrunk to fit.
 
-- **Transactional documents:** Nunito Sans italic at 10pt, per the type map
-  above. At that size it is small text, so it runs in `cherry` rather than
-  `persimmon`, which fails there.
-- **Web and deck lockups:** Satisfy at display size, flat and trailing, tucked
-  under the wordmark so the two read as one lockup. Satisfy is display-size only
-  and has no 10pt form, which is why documents diverge.
+Flat and trailing, tucked under the wordmark so the two read as one lockup.
+
+**Why 20px.** It is the type scale's `--text-lg`, and at that size the script's
+set width matches the 13pt lockup above it, so the block reads as one unit. At
+24px the script overruns the lockup and stops being a sub-line.
+
+**It is still small text for contrast purposes.** 20px is under the 24px large-
+text threshold, so the sub-line runs in `cherry`, not `persimmon`, which fails at
+that size. On collateral grounds this matters: `cherry` on `sand` measures 5.34
+and `persimmon` on `sand` measures 4.00.
 
 **Colour follows the ground, not the surface.** On light grounds the sub-line is
 `cherry`. On dark grounds it is `persimmon-lt`: `cherry` measures 2.81 on `ink`
@@ -701,8 +720,12 @@ only** — never repeated as running furniture. It sits at the foot of the conte
 box, **above** the footer rule and any running footer, left-aligned to the content
 edge.
 
-**Reserve 63px** for the block: 13pt lockup, the 10pt italic qualifier beneath it,
-and the space between. That reserve is not optional bookkeeping — it is the
+**Reserve 71px** for the block: 13pt lockup, the 20px Satisfy qualifier beneath
+it, and the space between. This was 63px when the qualifier was 10pt Nunito Sans
+italic; the block measures 42.1px against the old 34.3px with the real faces
+loaded, and the reserve moved with it. That is also why a page carrying the
+sign-off now fits **39** data rows rather than 40 — the block costs five rows at
+17.5px instead of four. That reserve is not optional bookkeeping — it is the
 difference between fitting and overrunning on any page already near its row
 ceiling, which is why it appears in the row budget above. Do not let it collide
 with the last data row; if the table reaches the ceiling, the sign-off moves to
@@ -1041,6 +1064,10 @@ generic verb, name no product.
 
 The standard closing line. Set as written — no variation, no substitution, no
 extending it into a longer sentence.
+
+**It is set in Satisfy**, in every document type as well as on web and deck
+lockups, at the sizes in §7. That is a typeface decision, not a licence to
+restate the line differently.
 
 ---
 

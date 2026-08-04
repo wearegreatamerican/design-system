@@ -28,21 +28,26 @@ artifact IS. Do not invent structure or pick type sizes off a general scale.
 
 Two classes:
 
-TRANSACTIONAL — price sheet, warranty, return policy, RMA form, quote, spec
-sheet, agreement. Designed on a paper #FFFFFF ground. No speckle, no sunburst,
-no waterline band, no page-edge tint, no full bleed. These are read and filed.
+TRANSACTIONAL — warranty, return policy, RMA form, quote, spec sheet,
+agreement. Designed on a paper #FFFFFF ground. No speckle, no sunburst, no
+waterline band, no page-edge tint, no full bleed. These are read and filed.
 
-COLLATERAL — flyer, line sheet, brochure, catalog cover. Designed on a sand
-#F7F4EE ground with the full motif set. These are looked at.
+COLLATERAL — price sheet, flyer, line sheet, brochure, catalog cover. Designed
+on a sand #F7F4EE ground with the full motif set. These are looked at.
+
+PRICE SHEETS are collateral because they are left behind at dealers. The
+downloadable version is the -print variant: paper ground, no motifs.
 
 Printing is not a transformation. A page prints as it displays. A flyer keeps
 its motifs when printed because a flyer is a decorated artifact. A price sheet
 is white because it was designed white, not because printing stripped a tint.
 Never strip or add decoration on the way to a printer.
 
-  PRICE SHEET — transactional. Cover masthead, effective date, column header
-  row, grouped part rows with group labels, footnotes. Continuation pages use
-  the continuation masthead. Prices use tabular figures. Row budget is binding.
+  PRICE SHEET — collateral, and a leave-behind at dealers. Cover masthead,
+  effective date, column header row, grouped part rows with group labels,
+  footnotes. Continuation pages use the continuation masthead. Prices use
+  tabular figures. Row budget is binding. Ships with a -print variant for
+  download.
 
   WARRANTY — transactional. Cover masthead, numbered sections with subsection
   labels, prose body, exclusions list, claims procedure. Revision number

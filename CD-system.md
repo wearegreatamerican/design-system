@@ -53,7 +53,8 @@ comp asks for it, use Archivo 800.
 
   SCRIPT — Satisfy, weight 400. Sentence case, never uppercase. Display size
   only, in a small number of approved places. Flat and trailing, never angled,
-  never leading a composition.
+  never leading a composition. The document sign-off is one of those places:
+  "Built to be trusted" is Satisfy at 20px in every document type.
 
 Weight is chosen by context, not by heading level. A heading sitting directly
 on a page or section ground is 800; a heading inside a card or panel is 600.
@@ -146,6 +147,9 @@ The only difference between surfaces is the page ground.
     Web, product and spec     ground paper   mortar panels, rules over cards quiet
     Transactional documents   ground paper   mortar shading                  quiet
     Collateral                ground sand    shell, mortar                   full
+
+Price sheets are COLLATERAL, not transactional — they are left behind at
+dealers. Their downloadable form is the -print variant on a paper ground.
 
 Quiet is a property of the surface, not a mode laid over it. Product, spec and
 transactional surfaces are quiet by definition.
