@@ -96,6 +96,36 @@ treatment applied at export.
 COLOUR IS NEVER THE SOLE CARRIER OF INFORMATION. Pair it with a label, an icon or
 a position. navy and cherry separate in greyscale; aqua and persimmon do not.
 
+PROVENANCE goes in the running footer, on every page — a cover does not survive
+a document being split or reprinted from page 12. Four fields:
+
+    Document version   REQUIRED on every generated document. The release date,
+                       ISO: 2026-08-05. This IS the version; there is no
+                       separate revision number.
+    Effective date     Documents that take force on a date. Human format:
+                       August 15, 2026.
+    Catalog tag        Pricing documents only. ISO: 2026-08-05.
+    Engine version     Pricing documents only: v1.0.0.
+
+Order, effective date first because it is the only field a partner needs while
+quoting:
+
+    Effective August 15, 2026 · v2026-08-05 · Catalog 2026-08-05 · Engine v1.0.0
+    Effective June 1, 2026 · v2026-05-28
+    v2026-08-05
+
+Two registers on purpose. The effective date reads to the person using the
+document, so it is written out. The other three are provenance identifiers, so
+they are ISO and terse. Effective date and document version are different facts
+and routinely differ — a list released on the 5th can take force on the 15th.
+Never collapse them. Same-day reissue appends a lowercase letter: v2026-08-05b.
+
+Set in the existing Running header, footer role. No new role.
+
+The Limited Warranty, both return policies and the RMA form are LOCKED on a
+Rev MM.YYYY scheme. Do not restyle them; this standard reaches them at their
+next substantive revision.
+
 PAGE GEOMETRY applies to every document type: US Letter, 816 x 1056 px at
 96 ppi, 48 px margins, 720 x 960 content box. Never an arbitrary web width.
 

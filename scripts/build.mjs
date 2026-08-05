@@ -120,6 +120,45 @@ for (const [name, d] of Object.entries(T.documents ?? {})) {
     errors.push(`document "${name}" is transactional but sits on "${d.ground}". Transactional documents are designed on paper`);
 }
 
+// Every generated document has to answer, from any page: what is this, when does it take
+// force, and what produced it. Covers do not survive a document being split, forwarded or
+// reprinted from page 12, so the answer lives in the running footer, and the registry
+// declares which fields each type carries.
+const FOOTER_ORDER = ["effectiveDate", "documentVersion", "catalogTag", "engineVersion"];
+for (const [name, d] of Object.entries(T.documents ?? {})) {
+  if (name.startsWith("_")) continue;
+  if (!Array.isArray(d.footer)) {
+    errors.push(`document "${name}" declares no footer. Every generated document carries at least `
+      + `documentVersion, because a page separated from its cover is otherwise unattributable`);
+    continue;
+  }
+  for (const f of d.footer)
+    if (!FOOTER_ORDER.includes(f))
+      errors.push(`document "${name}" footer declares unknown field "${f}". `
+        + `Known fields: ${FOOTER_ORDER.join(", ")}`);
+  if (!d.footer.includes("documentVersion"))
+    errors.push(`document "${name}" footer omits documentVersion, which every generated document carries`);
+
+  // The declared order is the printed order. Effective date leads because it is the only
+  // field a partner needs while quoting; the rest matter when something is disputed.
+  const known = d.footer.filter((f) => FOOTER_ORDER.includes(f));
+  const sorted = [...known].sort((a, b) => FOOTER_ORDER.indexOf(a) - FOOTER_ORDER.indexOf(b));
+  if (known.join() !== sorted.join())
+    errors.push(`document "${name}" footer is out of order. It reads "${known.join(" · ")}" and must read `
+      + `"${sorted.join(" · ")}": the array is the printed order, so a generator can join it directly`);
+
+  // furniture and footer are two records of the same fact, so they are checked against each
+  // other. A document that takes force on a date and does not say so is a defect.
+  const inFurniture = (d.furniture ?? []).includes("effective-date");
+  const inFooter = d.footer.includes("effectiveDate");
+  if (inFurniture && !inFooter)
+    errors.push(`document "${name}" carries effective-date furniture but its footer omits effectiveDate. `
+      + `The date has to survive the page being separated from the cover`);
+  if (inFooter && !inFurniture)
+    errors.push(`document "${name}" footer declares effectiveDate but the document declares no `
+      + `effective-date furniture. One of the two is wrong`);
+}
+
 // The -print variant names tokens by name, so those names are checked like any other
 // token reference. Otherwise a renamed or retired colour leaves the variant pointing at
 // nothing, and the failure surfaces as a document exported in the wrong colour rather

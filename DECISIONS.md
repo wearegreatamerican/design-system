@@ -11,6 +11,34 @@ Newest first.
 
 ---
 
+## 2026-08-05 — Document provenance in the running footer
+
+**Decision:** four fields — document version (release date, ISO, required),
+effective date (human, where applicable), catalog tag and engine version (pricing
+documents only). Footer on every page, effective date first. The document version
+**is** the release date; there is no separate revision number. Same-day reissues
+append a lowercase letter.
+
+**Why:** covers do not survive a document being split or reprinted from page 12.
+Effective date and release date are different facts and routinely differ.
+
+**Constraint:** every footer field comes from one source in the pipeline. Cover
+and footer disagreeing on effective date is a dispute, not a cosmetic bug.
+
+**Exemption:** locked documents keep `Rev MM.YYYY` until their next substantive
+revision.
+
+**Found on the way:** the warranty, return policy and agreement took force on a
+date and declared no `effective-date` furniture at all. That is the defect this
+standard names, sitting in the registry already. Their furniture now declares it,
+which also lets the build check `furniture` and `footer` against each other
+rather than trusting either alone.
+
+**Files:** `tokens.json` document registry, `DESIGN-SYSTEM.md`,
+`CD-document-types.md`
+
+---
+
 ## 2026-08-04 — Price lists are collateral, and the sign-off is Satisfy
 
 **Decision:** price lists move from transactional to collateral, and ship a

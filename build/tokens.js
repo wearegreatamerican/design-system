@@ -407,6 +407,12 @@ export const documents = {
       "Price",
       "Footnote",
       "Running header, footer"
+    ],
+    "footer": [
+      "effectiveDate",
+      "documentVersion",
+      "catalogTag",
+      "engineVersion"
     ]
   },
   "warranty": {
@@ -420,6 +426,7 @@ export const documents = {
     "furniture": [
       "running-header",
       "page-number",
+      "effective-date",
       "revision"
     ],
     "signOff": "last-page",
@@ -431,7 +438,15 @@ export const documents = {
       "Body, table cell",
       "Footnote",
       "Running header, footer"
-    ]
+    ],
+    "footer": [
+      "effectiveDate",
+      "documentVersion"
+    ],
+    "locked": {
+      "scheme": "Rev MM.YYYY",
+      "current": "Rev 06.2026"
+    }
   },
   "return-policy": {
     "class": "transactional",
@@ -444,6 +459,7 @@ export const documents = {
     "furniture": [
       "running-header",
       "page-number",
+      "effective-date",
       "revision"
     ],
     "signOff": "last-page",
@@ -456,7 +472,14 @@ export const documents = {
       "Table column head",
       "Footnote",
       "Running header, footer"
-    ]
+    ],
+    "footer": [
+      "effectiveDate",
+      "documentVersion"
+    ],
+    "locked": {
+      "scheme": "Rev MM.YYYY"
+    }
   },
   "rma-form": {
     "class": "transactional",
@@ -479,7 +502,13 @@ export const documents = {
       "Body, table cell",
       "Footnote",
       "Running header, footer"
-    ]
+    ],
+    "footer": [
+      "documentVersion"
+    ],
+    "locked": {
+      "scheme": "Rev MM.YYYY"
+    }
   },
   "quote": {
     "class": "transactional",
@@ -505,6 +534,11 @@ export const documents = {
       "Body, table cell",
       "Footnote",
       "Running header, footer"
+    ],
+    "footer": [
+      "documentVersion",
+      "catalogTag",
+      "engineVersion"
     ]
   },
   "spec-sheet": {
@@ -533,6 +567,9 @@ export const documents = {
       "Secondary copy, key options",
       "Footnote",
       "Running header, footer"
+    ],
+    "footer": [
+      "documentVersion"
     ]
   },
   "agreement": {
@@ -546,6 +583,7 @@ export const documents = {
     "furniture": [
       "running-header",
       "page-number",
+      "effective-date",
       "revision"
     ],
     "signOff": "last-page",
@@ -557,6 +595,10 @@ export const documents = {
       "Body, table cell",
       "Footnote",
       "Running header, footer"
+    ],
+    "footer": [
+      "effectiveDate",
+      "documentVersion"
     ]
   },
   "flyer": {
@@ -578,6 +620,9 @@ export const documents = {
       "Secondary copy, key options",
       "Body, table cell",
       "Sign-off lockup"
+    ],
+    "footer": [
+      "documentVersion"
     ]
   },
   "line-sheet": {
@@ -604,7 +649,14 @@ export const documents = {
       "Secondary copy, key options",
       "Footnote",
       "Running header, footer"
-    ]
+    ],
+    "footer": [
+      "effectiveDate",
+      "documentVersion",
+      "catalogTag",
+      "engineVersion"
+    ],
+    "_note": "Carries all four footer fields because it declares effective-date furniture and Price among its type roles: in practice this is the priced variety. Prices are nonetheless optional here — the structure reads \"if prices appear, the row budget is binding\" — so an unpriced line sheet will print a catalog tag and engine version it does not need. That is deliberate: a priced line sheet with no provenance is a dispute with nothing to trace, while an unpriced one carrying a catalog tag is only redundant. The registry cannot express \"only when priced\"; if that conditional starts to matter, it needs a field rather than a convention."
   },
   "brochure": {
     "class": "collateral",
@@ -627,6 +679,9 @@ export const documents = {
       "Body, table cell",
       "Secondary copy, key options",
       "Sign-off lockup"
+    ],
+    "footer": [
+      "documentVersion"
     ]
   },
   "catalog-cover": {
@@ -642,6 +697,9 @@ export const documents = {
     "structure": "Full-bleed image or flat colour field, wordmark, catalog title, edition or year. Sunburst permitted once. No body copy.",
     "typeRoles": [
       "Cover masthead"
+    ],
+    "footer": [
+      "documentVersion"
     ]
   }
 };

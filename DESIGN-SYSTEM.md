@@ -754,6 +754,96 @@ for completion. The Claude Design output is a handoff, not an artifact.
 Archivo, Nunito Sans, Oswald, and Satisfy are all Google Fonts and resolve
 natively in Figma with no substitution.
 
+### Provenance in the running footer
+
+Every generated document has to answer three questions **from any page**: what is
+this, when does it take force, and what produced it.
+
+Covers answer them once. **Covers do not survive a document being split,
+forwarded, or reprinted from page 12**, which is how these documents actually
+travel — so the answers live in the running footer, on every page.
+
+#### The four fields
+
+| Field | When | Format |
+|---|---|---|
+| **Document version** | **Every generated document** | ISO — `2026-08-05` |
+| **Effective date** | Documents that take force on a date | Human — `August 15, 2026` |
+| **Catalog tag** | Pricing documents only | ISO — `2026-08-05` |
+| **Engine version** | Pricing documents only | `v1.0.0` |
+
+**The document version IS the release date.** There is no separate revision
+number to keep in step with it.
+
+**Effective date and document version are different facts and routinely
+differ.** A list released on the 5th can take force on the 15th. Never collapse
+them, and never derive one from the other.
+
+**Two registers, on purpose.** The effective date reads to the person using the
+document, so it is written out. The other three are identifiers for provenance,
+so they are ISO and terse. That difference is the signal: prose is for the
+reader, ISO is for the audit.
+
+#### Order
+
+Running footer, every page, in this order:
+
+```
+Effective August 15, 2026 · v2026-08-05 · Catalog 2026-08-05 · Engine v1.0.0
+```
+
+**Effective date leads** — it is the only field a partner needs while quoting.
+The rest matter when something is disputed.
+
+Non-pricing documents carry two:
+
+```
+Effective June 1, 2026 · v2026-05-28
+```
+
+Documents with no effective date carry one:
+
+```
+v2026-08-05
+```
+
+Set in the existing **Running header, footer** role. No new type role.
+
+The registry declares the fields per document type in `footer`, in printed order,
+so a generator joins the array rather than deciding sequence for itself. The
+build fails if the order is wrong, if a field is unknown, or if `documentVersion`
+is missing.
+
+#### One source per field
+
+**Every field in the footer comes from one source in the generation pipeline.**
+
+The effective date already appears on covers. If the cover and the footer are
+typed separately they will disagree after a late change, and a document that
+states two effective dates is a dispute rather than a cosmetic bug. The registry
+cross-checks the two records it can see: a document declaring `effective-date`
+furniture must declare `effectiveDate` in its footer, and the reverse.
+
+#### Same-day reissue
+
+The document version is a date, so two releases on one day collide. This will
+happen — a footnote typo, a layout fix, no price change.
+
+**On a same-day reissue, append a lowercase letter:** `v2026-08-05b`, then `c`.
+The first release of a day carries no suffix, which keeps the common case clean
+and adds machinery only where it is needed.
+
+#### Locked documents
+
+The Limited Warranty (`Rev 06.2026`), both return policies — dealer and
+distributor — and the RMA form use a `Rev MM.YYYY` scheme and are **locked**.
+
+**Do not restyle them to match this standard.** It applies to new documents, and
+to a locked document at its **next substantive revision**. `Rev MM.YYYY` remains
+valid until then. The registry records the exemption on those entries under
+`locked`, so the footer they declare is the target state rather than what they
+carry today.
+
 ### The `-print` variant
 
 **`-print` — office printer optimized. White ground, no motifs, colours chosen to

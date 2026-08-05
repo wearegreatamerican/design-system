@@ -11,6 +11,54 @@ them. Read those before upgrading; the rest can be skimmed.
 
 Published tags are immutable. A tag is never moved once pushed.
 
+## [1.9.0] — 2026-08-05
+
+### Added
+
+- **Document provenance in the running footer.** Every generated document now
+  answers three questions from any page: what is this, when does it take force,
+  and what produced it. Covers answered them once, and covers do not survive a
+  document being split, forwarded, or reprinted from page 12.
+
+  | Field | When | Format |
+  |---|---|---|
+  | **Document version** | every generated document | ISO — `2026-08-05` |
+  | **Effective date** | documents that take force on a date | human — `August 15, 2026` |
+  | **Catalog tag** | pricing documents only | ISO — `2026-08-05` |
+  | **Engine version** | pricing documents only | `v1.0.0` |
+
+  Footer order, effective date first because it is the only field a partner needs
+  while quoting:
+
+  ```
+  Effective August 15, 2026 · v2026-08-05 · Catalog 2026-08-05 · Engine v1.0.0
+  ```
+
+  **The document version is the release date** — there is no separate revision
+  number. **Effective date and document version are different facts** and
+  routinely differ; a list released on the 5th can take force on the 15th.
+  Same-day reissues append a lowercase letter: `v2026-08-05b`.
+
+  Set in the existing Running header, footer role. No new type role.
+
+- **`footer` on every registry entry**, in printed order, so a generator joins
+  the array rather than deciding sequence for itself. The build fails on a
+  missing footer, an unknown field name, a missing `documentVersion`, or a
+  footer in the wrong order.
+
+- **`locked` on the exempt entries.** The Limited Warranty (`Rev 06.2026`), both
+  return policies and the RMA form keep `Rev MM.YYYY` until their **next
+  substantive revision**. Do not restyle them. Their declared footer is the
+  target state, not what they carry today.
+
+### Fixed
+
+- **The warranty, return policy and agreement took force on a date and declared
+  no `effective-date` furniture.** That is the defect this standard names,
+  already sitting in the registry. Their furniture now declares it, and the build
+  checks `furniture` and `footer` against each other in both directions — a
+  document declaring one and not the other fails.
+
 ## [1.8.0] — 2026-08-04
 
 ### Changed
@@ -345,6 +393,7 @@ network including distributors the reader cannot buy from.
   longer holding, and transactional documents declaring motifs or a non-`paper`
   ground.
 
+[1.9.0]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.9.0
 [1.8.0]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.8.0
 [1.7.0]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.7.0
 [1.6.0]: https://github.com/wearegreatamerican/design-system/releases/tag/v1.6.0
